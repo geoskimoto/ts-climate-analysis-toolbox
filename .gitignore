@@ -1,0 +1,8 @@
+*.html
+*.venv
+*venv
+*.env
+*.sqlite
+*.sqlite3
+*.pyc
+modifiedflows2020/*
