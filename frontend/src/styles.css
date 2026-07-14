@@ -1,0 +1,129 @@
+:root {
+  --surface: #fcfcfb;
+  --panel: #ffffff;
+  --ink-1: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #8a8984;
+  --line: #e8e7e3;
+  --line-2: #d9d8d3;
+  --blue: #2a78d6;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink-1);
+  background: var(--surface);
+  font-size: 14px;
+}
+
+.app { display: flex; flex-direction: column; height: 100%; }
+.app__bar {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 12px 20px; border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+.app__bar h1 { font-size: 17px; margin: 0; font-weight: 650; }
+.app__tag { color: var(--ink-3); font-size: 12.5px; margin-left: auto; }
+.source-toggle { display: flex; gap: 4px; margin-left: 10px; }
+.source-tab {
+  padding: 5px 12px; border: 1px solid var(--line-2); background: #fff;
+  border-radius: 6px; cursor: pointer; font: inherit; font-size: 12.5px; color: var(--ink-2);
+}
+.source-tab--active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.analysis__note { margin-top: 8px; font-size: 12px; color: var(--ink-3); max-width: 720px; line-height: 1.45; }
+.app__body { display: flex; flex: 1; min-height: 0; }
+
+/* Sidebar */
+.sidebar {
+  width: 350px; flex-shrink: 0; border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; background: var(--panel); min-height: 0;
+}
+.sidebar__controls { padding: 12px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.input {
+  width: 100%; padding: 7px 9px; border: 1px solid var(--line-2); border-radius: 6px;
+  font: inherit; color: var(--ink-1); background: #fff;
+}
+.input:focus { outline: 2px solid rgba(42, 120, 214, 0.35); border-color: var(--blue); }
+.input--select { width: auto; padding: 4px 8px; }
+.state-tabs { display: flex; gap: 4px; }
+.state-tab {
+  flex: 1; padding: 5px 0; border: 1px solid var(--line-2); background: #fff;
+  border-radius: 6px; cursor: pointer; font: inherit; color: var(--ink-2);
+}
+.state-tab--active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+.site-map { height: 240px; width: 100%; flex-shrink: 0; z-index: 0; }
+
+.site-list { flex: 1; overflow-y: auto; min-height: 0; }
+.site-list__count { padding: 8px 12px; color: var(--ink-3); font-size: 12px; position: sticky; top: 0; background: var(--panel); border-bottom: 1px solid var(--line); }
+.site-item {
+  display: flex; flex-direction: column; gap: 1px; width: 100%; text-align: left;
+  padding: 7px 12px; border: 0; border-bottom: 1px solid var(--line); background: none;
+  cursor: pointer; font: inherit;
+}
+.site-item:hover { background: #f4f6f9; }
+.site-item--active { background: #eaf1fb; box-shadow: inset 3px 0 0 var(--blue); }
+.site-item__name { color: var(--ink-1); font-size: 13px; line-height: 1.25; }
+.site-item__meta { color: var(--ink-3); font-size: 11.5px; }
+
+/* Main */
+.main { flex: 1; overflow-y: auto; padding: 18px 22px; min-width: 0; }
+.placeholder { color: var(--ink-2); padding: 40px 8px; }
+.placeholder--intro { max-width: 560px; }
+.placeholder--intro h2 { margin: 0 0 8px; font-weight: 600; }
+.placeholder--intro p { line-height: 1.55; color: var(--ink-2); }
+
+/* Controls */
+.controls {
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px;
+  padding: 12px 14px; background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius); margin-bottom: 16px;
+}
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field > span { font-size: 11.5px; color: var(--ink-3); }
+.field--sm .input { width: 92px; }
+.field--check { flex-direction: row; align-items: center; gap: 6px; }
+.field--check span { font-size: 12.5px; color: var(--ink-2); }
+.btn {
+  margin-left: auto; padding: 8px 18px; background: var(--blue); color: #fff;
+  border: 0; border-radius: 6px; font: inherit; font-weight: 550; cursor: pointer;
+}
+.btn:disabled { opacity: 0.55; cursor: default; }
+
+.banner { padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; font-size: 13px; }
+.banner--error { background: #fdecec; color: #a12a2a; border: 1px solid #f3c9c9; }
+
+/* Analysis header */
+.analysis__header { margin-bottom: 14px; }
+.analysis__header h2 { margin: 0 0 4px; font-size: 18px; font-weight: 620; }
+.analysis__submeta { display: flex; flex-wrap: wrap; gap: 14px; color: var(--ink-3); font-size: 12.5px; }
+
+/* MK cards */
+.mk-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 18px; }
+.mk-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); }
+.mk-card__title { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; line-height: 1.3; }
+.mk-card__verdict { display: flex; align-items: center; gap: 7px; font-weight: 650; font-size: 16px; }
+.mk-card__glyph { font-size: 13px; }
+.mk-card__stats { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.mk-badge { font-size: 10.5px; padding: 2px 7px; border-radius: 20px; font-weight: 600; letter-spacing: 0.02em; }
+.mk-badge--sig { background: #e7f4e7; color: #1a7a1a; }
+.mk-badge--ns { background: #f0efec; color: #78766f; }
+.mk-card__p { font-size: 12px; color: var(--ink-3); }
+.mk-card__slope { margin-top: 6px; font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* Charts */
+.chart { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px 6px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.chart__title { font-size: 13px; font-weight: 580; color: var(--ink-2); margin-bottom: 6px; }
+.chart__select-row { margin-bottom: 6px; font-size: 12.5px; color: var(--ink-2); }
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+.chart-grid > div { min-width: 0; }
+
+.year-legend { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--ink-3); padding: 2px 4px 6px; }
+.year-legend__bar { flex: 1; height: 8px; border-radius: 4px; max-width: 220px; }
+
+/* Leaflet tooltip tweak */
+.leaflet-tooltip { font-size: 12px; }

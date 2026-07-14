@@ -1,0 +1,46 @@
+// Thin fetch wrappers over the FastAPI backend.
+
+async function json(res) {
+  if (!res.ok) {
+    let detail = res.statusText
+    try {
+      detail = (await res.json()).detail || detail
+    } catch {
+      /* ignore */
+    }
+    throw new Error(detail)
+  }
+  return res.json()
+}
+
+export function listSites({ query, state } = {}) {
+  const params = new URLSearchParams()
+  if (query) params.set('query', query)
+  if (state) params.set('state', state)
+  params.set('limit', '2000')
+  return fetch(`/api/sites?${params}`).then(json)
+}
+
+export function analyze(request) {
+  return fetch('/api/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  }).then(json)
+}
+
+export function listSnotelSites({ query, state } = {}) {
+  const params = new URLSearchParams()
+  if (query) params.set('query', query)
+  if (state) params.set('state', state)
+  params.set('limit', '2000')
+  return fetch(`/api/snotel-sites?${params}`).then(json)
+}
+
+export function analyzeSnow(request) {
+  return fetch('/api/analyze/snow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  }).then(json)
+}

@@ -1,8 +1,14 @@
-*.html
+# Exported Plotly/notebook HTML lives at the repo root; ignore those but keep
+# the frontend app's own HTML.
+/*.html
+!frontend/index.html
 *.venv
 *venv
 *.env
 *.sqlite
 *.sqlite3
 *.pyc
+__pycache__/
+*.egg-info/
+.pytest_cache/
 modifiedflows2020/*
