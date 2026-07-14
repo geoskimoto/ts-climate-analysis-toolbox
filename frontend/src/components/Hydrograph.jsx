@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Plot, baseLayout, CONFIG, WATER_YEAR_TICKS } from '../plot'
 import { INK, IQR_FILL, SERIES_BLUE, yearColor, YEAR_RAMP } from '../palette'
+import LazyChart from './LazyChart'
 
 // Daily hydrograph: every water year overlaid (colored old→new) on the
 // day-of-year climatology envelope (median line + inter-quartile band).
@@ -11,7 +12,9 @@ export default function Hydrograph({ result }) {
       <figcaption className="chart__title">
         Daily hydrograph — all water years over the climatology envelope
       </figcaption>
-      <Plot data={data} layout={layout} config={CONFIG} style={{ width: '100%', height: 360 }} useResizeHandler />
+      <LazyChart height={360}>
+        <Plot data={data} layout={layout} config={CONFIG} style={{ width: '100%', height: 360 }} useResizeHandler />
+      </LazyChart>
       <div className="year-legend">
         <span>{result.meta.water_years[0]}</span>
         <span className="year-legend__bar" style={{ background: `linear-gradient(90deg, ${YEAR_RAMP.join(',')})` }} />

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Plot, baseLayout, CONFIG } from '../plot'
 import { INK, SERIES_BLUE, TREND } from '../palette'
+import LazyChart from './LazyChart'
 
 // Per-water-year scatter with the Mann-Kendall Sen's-slope line overlaid.
 // A significant trend draws a solid colored line; otherwise a dashed gray line.
@@ -12,7 +13,9 @@ export default function TrendChart({ title, points, mk, yLabel, unit, hoverUnit,
   return (
     <figure className="chart">
       {title && <figcaption className="chart__title">{title}</figcaption>}
-      <Plot data={data} layout={layout} config={CONFIG} style={{ width: '100%', height }} useResizeHandler />
+      <LazyChart height={height}>
+        <Plot data={data} layout={layout} config={CONFIG} style={{ width: '100%', height }} useResizeHandler />
+      </LazyChart>
     </figure>
   )
 }
