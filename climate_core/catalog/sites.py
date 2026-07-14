@@ -29,6 +29,7 @@ class Site:
     long: float | None
     drainage_area_sqmi: float | None
     elevation_ft: float | None
+    huc: str | None = None
 
     def to_dict(self) -> dict:
         return {
@@ -40,6 +41,7 @@ class Site:
             "long": self.long,
             "drainage_area_sqmi": self.drainage_area_sqmi,
             "elevation_ft": self.elevation_ft,
+            "huc": self.huc,
         }
 
 
@@ -52,7 +54,7 @@ class SiteCatalog:
 
     def __init__(self, path: str | Path = _CATALOG_PATH):
         self.path = Path(path)
-        self.df = pd.read_csv(self.path, dtype={"site_no": str})
+        self.df = pd.read_csv(self.path, dtype={"site_no": str, "huc": str})
 
     def __len__(self) -> int:
         return len(self.df)
@@ -67,6 +69,7 @@ class SiteCatalog:
             long=_clean(row.get("long")),
             drainage_area_sqmi=_clean(row.get("drainage_area_sqmi")),
             elevation_ft=_clean(row.get("elevation_ft")),
+            huc=_clean(row.get("huc")),
         )
 
     def get(self, site_no: str) -> Site:

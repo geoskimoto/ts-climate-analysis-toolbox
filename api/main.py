@@ -16,8 +16,9 @@ import requests
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import schemas, service, service_snow
+from api import schemas, service, service_paired, service_snow
 from climate_core.catalog import default_catalog, default_snotel_catalog
+from climate_core.pairing import suggest_snotel_for_gage
 
 app = FastAPI(
     title="PNW Streamflow Climate Analysis API",
@@ -98,6 +99,31 @@ def analyze_snow(req: schemas.SnowAnalysisRequest) -> schemas.SnowAnalysisResult
         return service_snow.run_snow_analysis(req)
     except KeyError:
         raise HTTPException(status_code=404, detail=f"SNOTEL station {req.station_triplet!r} not found.")
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except requests.RequestException as e:
+        raise HTTPException(status_code=502, detail=f"Upstream data source error: {e}")
+
+
+@app.get("/api/sites/{site_no}/snotel-candidates", response_model=list[schemas.SnotelCandidateOut])
+def snotel_candidates(site_no: str, limit: int = Query(6, ge=1, le=20)) -> list[schemas.SnotelCandidateOut]:
+    """Suggest SNOTEL stations that plausibly represent this gage's basin.
+
+    A ranked shortlist for a human to curate — NOT an authoritative pairing.
+    """
+    try:
+        candidates = suggest_snotel_for_gage(site_no, max_candidates=limit)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Site {site_no!r} not found.")
+    return [schemas.SnotelCandidateOut(**c.to_dict()) for c in candidates]
+
+
+@app.post("/api/analyze/paired", response_model=schemas.PairedResult)
+def analyze_paired(req: schemas.PairedRequest) -> schemas.PairedResult:
+    try:
+        return service_paired.run_paired_analysis(req)
+    except KeyError as e:
+        raise HTTPException(status_code=404, detail=str(e).strip("'"))
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
     except requests.RequestException as e:

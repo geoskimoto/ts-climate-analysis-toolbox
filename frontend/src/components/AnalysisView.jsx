@@ -2,6 +2,7 @@ import { useState } from 'react'
 import MannKendallCard from './MannKendallCard'
 import Hydrograph from './Hydrograph'
 import TrendChart from './TrendChart'
+import PairingPanel from './PairingPanel'
 
 // Right pane once an analysis has run: site header, verdict cards, the
 // hydrograph, and the per-year trend charts.
@@ -63,6 +64,8 @@ export default function AnalysisView({ result }) {
             hoverUnit="maf" />
         </div>
       </div>
+
+      <PairingPanel siteNo={meta.site.site_no} />
     </div>
   )
 }

@@ -224,3 +224,58 @@ class SnowAnalysisResult(BaseModel):
     april1_swe: BenchmarkSwe
     melt_out: MeltOut
     hydrograph: list[HydrographYear] | None = None
+
+
+# --------------------------------------------------------------------------- #
+# Paired snow <-> streamflow basin view (option "B")
+# --------------------------------------------------------------------------- #
+class SnotelCandidateOut(SnotelSiteOut):
+    distance_miles: float
+    elevation_diff_ft: float | None
+    same_huc8: bool
+
+
+class SeriesPoint(BaseModel):
+    water_year: int
+    value: float
+
+
+class TrendSeries(BaseModel):
+    key: str
+    label: str
+    unit: str
+    kind: str  # 'value' | 'timing' -- how the frontend labels the y-axis
+    warming_direction: str  # 'increasing' | 'decreasing' -- which way is a warming signal
+    mk: MannKendall | None
+    points: list[SeriesPoint]
+
+
+class PairedWindow(BaseModel):
+    start_water_year: int
+    end_water_year: int
+    n_water_years: int
+
+
+class Corroboration(BaseModel):
+    category: str  # 'corroborating' | 'mixed' | 'inconclusive'
+    summary: str
+    details: list[str]
+
+
+class PairedRequest(BaseModel):
+    site_no: str = Field(..., examples=["13340000"])
+    station_triplet: str = Field(..., examples=["1142:ID:SNTL"])
+    start_date: date | None = None
+    end_date: date | None = None
+    threshold_percent: float = Field(0.5, gt=0, lt=1)
+    benchmark_month_day: str = Field("04-01", pattern=r"^\d{2}-\d{2}$")
+    alpha: float = Field(0.10, gt=0, lt=1)
+
+
+class PairedResult(BaseModel):
+    gage: SiteOut
+    station: SnotelSiteOut
+    window: PairedWindow
+    snow_trends: list[TrendSeries]
+    streamflow_trends: list[TrendSeries]
+    corroboration: Corroboration

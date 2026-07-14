@@ -44,3 +44,15 @@ export function analyzeSnow(request) {
     body: JSON.stringify(request),
   }).then(json)
 }
+
+export function getSnotelCandidates(siteNo, limit = 6) {
+  return fetch(`/api/sites/${siteNo}/snotel-candidates?limit=${limit}`).then(json)
+}
+
+export function analyzePaired(request) {
+  return fetch('/api/analyze/paired', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  }).then(json)
+}
