@@ -1,6 +1,13 @@
 // Thin fetch wrappers over the FastAPI backend.
 
+const LOGIN_URL = 'https://apps.streamflows.org/login'
+
 async function json(res) {
+  if (res.status === 401) {
+    // Session expired — sign back in through the portal, then return here.
+    window.location.assign(`${LOGIN_URL}?next=${encodeURIComponent(window.location.href)}`)
+    throw new Error('Your session has expired — redirecting to sign-in…')
+  }
   if (!res.ok) {
     let detail = res.statusText
     try {
