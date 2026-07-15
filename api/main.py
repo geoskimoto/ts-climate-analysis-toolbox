@@ -17,6 +17,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from api import schemas, service, service_paired, service_snow
+from api.auth import install_auth
 from climate_core.catalog import default_catalog, default_snotel_catalog
 from climate_core.pairing import suggest_snotel_for_gage
 
@@ -38,6 +39,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# streamflows.org portal SSO — active only when JWT_SECRET is set.
+install_auth(app)
 
 
 @app.get("/api/health")
