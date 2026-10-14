@@ -63,3 +63,11 @@ export function analyzePaired(request) {
     body: JSON.stringify(request),
   }).then(json)
 }
+
+export function analyzeBaseflow(request) {
+  return fetch('/api/analyze/baseflow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  }).then(json)
+}

@@ -42,3 +42,14 @@ function hexToRgb(hex) {
   const h = hex.replace('#', '')
   return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16))
 }
+
+// Per-method baseflow series: Okabe-Ito colours (colourblind-safe) PLUS a
+// distinct marker symbol and dash style, so methods are never told apart by
+// colour alone.
+export const METHOD_STYLE = {
+  lyne_hollick: { color: '#0072B2', symbol: 'circle', dash: 'dash', name: 'Lyne-Hollick' },
+  eckhardt: { color: '#D55E00', symbol: 'square', dash: 'dot', name: 'Eckhardt' },
+  local_minimum: { color: '#009E73', symbol: 'diamond', dash: 'dashdot', name: 'Local minimum' },
+}
+export const METHOD_STYLE_FALLBACK = { color: '#CC79A7', symbol: 'triangle-up', dash: 'longdash' }
+export const methodStyle = (m) => METHOD_STYLE[m] || METHOD_STYLE_FALLBACK

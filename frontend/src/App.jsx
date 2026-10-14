@@ -2,9 +2,11 @@ import { useEffect, useState, useCallback } from 'react'
 import Sidebar from './components/Sidebar'
 import Controls from './components/Controls'
 import SnowControls from './components/SnowControls'
+import BaseflowControls from './components/BaseflowControls'
+import BaseflowView from './components/BaseflowView'
 import AnalysisView from './components/AnalysisView'
 import SnowAnalysisView from './components/SnowAnalysisView'
-import { listSites, analyze, listSnotelSites, analyzeSnow } from './api'
+import { listSites, analyze, listSnotelSites, analyzeSnow, analyzeBaseflow } from './api'
 
 const DEFAULT_PARAMS = {
   start_date: '1930-10-01',
@@ -22,14 +24,29 @@ const DEFAULT_SNOW_PARAMS = {
   alpha: 0.1,
 }
 
+const DEFAULT_BASEFLOW_PARAMS = {
+  start_date: '1995-10-01',
+  end_date: '2025-09-30',
+  methods: ['lyne_hollick', 'eckhardt', 'local_minimum'],
+  eckhardt_bfi_max: 0.8,
+  alpha: 0.1,
+}
+
+const SOURCE_LABELS = {
+  streamflow: 'Streamflow (USGS)',
+  snow: 'Snowpack (SNOTEL)',
+  baseflow: 'Baseflow (USGS)',
+}
+
 const STATES = {
   streamflow: ['', 'WA', 'OR', 'ID'],
+  baseflow: ['', 'WA', 'OR', 'ID'],
   snow: ['', 'WA', 'OR', 'ID', 'MT', 'WY'],
 }
 
 // Normalise both catalogs to a common display shape for the map/list.
 function toDisplay(s, source) {
-  return source === 'streamflow'
+  return source !== 'snow'
     ? { id: s.site_no, name: s.name, state: s.state, lat: s.lat, long: s.long }
     : { id: s.station_triplet, name: s.name, state: s.state, lat: s.lat, long: s.long }
 }
@@ -44,6 +61,7 @@ export default function App() {
   const [selected, setSelected] = useState(null)
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const [snowParams, setSnowParams] = useState(DEFAULT_SNOW_PARAMS)
+  const [baseflowParams, setBaseflowParams] = useState(DEFAULT_BASEFLOW_PARAMS)
   const [result, setResult] = useState(null)
   const [resultSource, setResultSource] = useState(null) // which source `result` belongs to
   const [running, setRunning] = useState(false)
@@ -57,7 +75,7 @@ export default function App() {
     setError(null)
     setQuery('')
     setState('')
-    const loader = source === 'streamflow' ? listSites : listSnotelSites
+    const loader = source !== 'snow' ? listSites : listSnotelSites
     loader({})
       .then((list) => setAllSites(list.map((s) => toDisplay(s, source))))
       .catch((e) => setError(e.message))
@@ -79,7 +97,9 @@ export default function App() {
         const res =
           source === 'streamflow'
             ? await analyze({ site_no: site.id, ...params })
-            : await analyzeSnow({ station_triplet: site.id, ...snowParams })
+            : source === 'baseflow'
+              ? await analyzeBaseflow({ site_no: site.id, ...baseflowParams })
+              : await analyzeSnow({ station_triplet: site.id, ...snowParams })
         setResult(res)
         setResultSource(source)
       } catch (e) {
@@ -89,7 +109,7 @@ export default function App() {
         setRunning(false)
       }
     },
-    [source, params, snowParams],
+    [source, params, snowParams, baseflowParams],
   )
 
   const onSelect = (site) => {
@@ -102,7 +122,7 @@ export default function App() {
       <header className="app__bar">
         <h1>PNW Streamflow Climate Explorer</h1>
         <div className="source-toggle">
-          {['streamflow', 'snow'].map((src) => (
+          {['streamflow', 'snow', 'baseflow'].map((src) => (
             <button
               key={src}
               className={`source-tab ${source === src ? 'source-tab--active' : ''}`}
@@ -116,7 +136,7 @@ export default function App() {
                 setSource(src)
               }}
             >
-              {src === 'streamflow' ? 'Streamflow (USGS)' : 'Snowpack (SNOTEL)'}
+              {SOURCE_LABELS[src]}
             </button>
           ))}
         </div>
@@ -141,19 +161,24 @@ export default function App() {
             <>
               {source === 'streamflow' ? (
                 <Controls params={params} setParams={setParams} onRun={() => run(selected)} running={running} />
+              ) : source === 'baseflow' ? (
+                <BaseflowControls params={baseflowParams} setParams={setBaseflowParams} onRun={() => run(selected)} running={running} />
               ) : (
                 <SnowControls params={snowParams} setParams={setSnowParams} onRun={() => run(selected)} running={running} />
               )}
               {error && <div className="banner banner--error">{error}</div>}
               {running && !result && <div className="placeholder">Fetching data and computing trends…</div>}
               {result && resultSource === 'streamflow' && <AnalysisView result={result} />}
+              {result && resultSource === 'baseflow' && <BaseflowView result={result} />}
               {result && resultSource === 'snow' && <SnowAnalysisView result={result} />}
             </>
           ) : (
             <div className="placeholder placeholder--intro">
-              <h2>Select a {source === 'streamflow' ? 'streamflow gage' : 'SNOTEL station'}</h2>
+              <h2>Select a {source === 'snow' ? 'SNOTEL station' : 'streamflow gage'}</h2>
               <p>
-                {source === 'streamflow'
+                {source === 'baseflow'
+                  ? 'Pick a gage to separate its daily record into baseflow (groundwater-fed flow) using three methods and test summer baseflow, baseflow index, and recession for trends. Results are reported as a range across methods.'
+                  : source === 'streamflow'
                   ? 'Pick a gage on the map or from the list to fetch its full daily record from USGS and test it for climate-change signals — shifts in runoff timing, seasonal volume, and peak flow.'
                   : 'Pick a SNOTEL station to fetch its snow water equivalent record from NRCS and test it for snowpack decline — peak SWE, April-1 SWE, and melt-out timing.'}
               </p>
