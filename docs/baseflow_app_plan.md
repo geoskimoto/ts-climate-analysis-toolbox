@@ -64,6 +64,15 @@ example: { water_year: int, dates: [str], flow_cfs: [float|null], baseflow_cfs: 
 `label` strings: `"Lyne-Hollick filter"`, `"Eckhardt filter (BFImax=0.80)"` (shows the used value), `"Local minimum (HYSEP-style)"`.
 `example.baseflow_cfs` is computed by running the separation function on the **same cleaned series** the metrics used (interpolated values included) and slicing the example water year.
 
+## Clarifications (added after test authoring)
+- `original` and `hamed_rao` both use the same permissive `TrendTest` shape `{trend: str, significant: bool, p_value: float|null, z: float|null, tau: float|null, s: float|null, var_s: float|null, slope: float|null, intercept: float|null}`; any non-finite value is serialized as null. (Replaces "original: MannKendall".)
+- Explicit `null` for `start_date`/`end_date` means the default.
+- `methods` in the response follow the request order, minus skipped ones; `method_range` rows follow `metric_info` order.
+- `record_start`/`record_end` are the min/max dates of the raw fetched series (before any water-year trimming).
+- Absent dates in the fetched frame are treated as gaps (handled by the stats module's gap policy).
+- Errors: service raises `KeyError` (unknown site) and `ValueError` (everything else, including pydantic `ValidationError`); the route maps them to 404/422 like the existing routes; `requests.RequestException` -> 502.
+- `network`-marked tests are excluded with `pytest -m "not network"` per the README (no addopts).
+
 ## Frontend contract
 - New source tab "Baseflow (USGS)" in `App.jsx`; reuses the streamflow site list/map (same catalog), STATES list `['', 'WA', 'OR', 'ID']`.
 - `DEFAULT_BASEFLOW_PARAMS = { start_date: '1995-10-01', end_date: '2025-09-30', methods: [all three], eckhardt_bfi_max: 0.8, alpha: 0.1 }`.
