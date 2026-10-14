@@ -87,6 +87,11 @@ def method_range(per_method: dict[str, pd.DataFrame], alpha: float = 0.10) -> pd
 - When `2N` is exactly midway between two odd integers (e.g. 4.0 -> 3 or 5), choose the larger.
 - `method_range` ignores NaN period means (uses `numpy.nanmin/nanmedian/nanmax`); a metric with all-NaN means yields NaN.
 
+- Lyne-Hollick end reflection uses numpy `reflect` semantics (the edge sample is not repeated); the initial quickflow value `qf[0]` is 0.
+- An exact 1.00% interpolation boundary cannot occur in a 365/366-day water year; the tested boundary is 3 interpolated days allowed (0.82%) and 4 excluded (1.10%).
+- `n_methods` equals the number of per-method frames supplied, even if a metric is all-NaN for some of them.
+- Zero total flow in a water year gives NaN for `bfi` and `baseflow_cot_dowy`.
+
 ## 8. Out of scope (v1)
 PART, BFI-Standard (Wahl & Wahl) and chemical/tracer separation; regulation detection; snowmelt correction; field significance (done in the analysis, not the module).
 
