@@ -14,8 +14,13 @@ export default function BaseflowView({ result }) {
   const info = Object.fromEntries(metric_info.map((m) => [m.key, m]))
   const [metric, setMetric] = useState(info[DEFAULT_METRIC] ? DEFAULT_METRIC : metric_info[0]?.key)
   const mi = info[metric] || { label: metric, unit: '', description: '' }
-  const regulated = meta.regulation.level === 'likely_regulated'
-  const regLabel = { likely_regulated: 'Likely regulated', unregulated: 'No regulation indicated', unknown: 'Regulation unknown' }[meta.regulation.level] || meta.regulation.level
+  const level = meta.regulation.level
+  const reg = {
+    regulated: { cls: 'bf-reg--strong', glyph: '⛔', label: 'Flow is regulated' },
+    likely_regulated: { cls: 'bf-reg--warn', glyph: '⚠', label: 'Likely regulated' },
+    likely_unregulated: { cls: '', glyph: 'ⓘ', label: 'No regulation indicated' },
+    unknown: { cls: '', glyph: 'ⓘ', label: 'Regulation unknown' },
+  }[level] || { cls: '', glyph: 'ⓘ', label: level }
   const methodsMemo = useMemo(() => methods, [methods])
 
   return (
@@ -35,10 +40,13 @@ export default function BaseflowView({ result }) {
         <strong>Read with care</strong>
         <ul>{meta.caveats.map((c, i) => <li key={i}>{c}</li>)}</ul>
       </div>
-      <div className={`bf-reg ${regulated ? 'bf-reg--warn' : ''}`}>
-        <span aria-hidden="true">{regulated ? '⚠' : 'ⓘ'}</span>
-        <span>{regLabel}</span>
+      <div className={`bf-reg ${reg.cls}`} role={level === 'regulated' ? 'alert' : undefined}>
+        <span aria-hidden="true">{reg.glyph}</span>
+        <span>{reg.label}</span>
         {meta.regulation.reason && <span className="bf-reg__reason">— {meta.regulation.reason}</span>}
+        {level === 'regulated' && (
+          <span className="bf-reg__reason bf-reg__sentence">Trends here mostly reflect reservoir/diversion operations, not climate.</span>
+        )}
       </div>
 
       <section className="bf-section">

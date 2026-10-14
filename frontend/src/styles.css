@@ -193,3 +193,6 @@ body {
 .analysis > .chart { margin-left: 0; margin-right: 0; }
 .bf-cards { align-items: start; }
 .bf-method-card__extra { padding: 0 2px; }
+.bf-reg { flex-wrap: wrap; border-radius: 10px; }
+.bf-reg--strong { background: #fde8e6; border: 2px solid #b3261e; color: #7a1410; font-size: 13px; padding: 8px 12px; }
+.bf-reg__sentence { flex-basis: 100%; font-weight: 650; }
