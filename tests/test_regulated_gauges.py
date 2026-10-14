@@ -129,7 +129,7 @@ def test_loader_returns_dict_keyed_by_site_no(raw):
 def test_regulated_gauge_frozen_dataclass_fields():
     assert dataclasses.is_dataclass(reg.RegulatedGauge)
     assert [f.name for f in dataclasses.fields(reg.RegulatedGauge)] == COLUMNS
-    g = regulated_gauges()["13340000"]
+    g = regulated_gauges()["13341000"]
     with pytest.raises(dataclasses.FrozenInstanceError):
         g.regulator = "x"  # type: ignore[misc]
     assert "Dworshak" in g.regulator

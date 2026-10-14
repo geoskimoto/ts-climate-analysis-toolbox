@@ -205,7 +205,7 @@ def run_baseflow_analysis(req: schemas.BaseflowRequest) -> schemas.BaseflowResul
         for metric, r in rng.iterrows()
     ]
 
-    hint = regulation_hint(site.name, site.drainage_area_sqmi)
+    hint = regulation_hint(site.name, site.drainage_area_sqmi, site.site_no)
     d = dates.dt
     meta = schemas.BaseflowMeta(
         site=schemas.SiteOut(**site.to_dict()),
