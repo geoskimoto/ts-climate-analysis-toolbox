@@ -65,7 +65,7 @@ example: { water_year: int, dates: [str], flow_cfs: [float|null], baseflow_cfs: 
 `example.baseflow_cfs` is computed by running the separation function on the **same cleaned series** the metrics used (interpolated values included) and slicing the example water year.
 
 ## Clarifications (added after test authoring)
-- `original` and `hamed_rao` both use the same permissive `TrendTest` shape `{trend: str, significant: bool, p_value: float|null, z: float|null, tau: float|null, s: float|null, var_s: float|null, slope: float|null, intercept: float|null}`; any non-finite value is serialized as null. (Replaces "original: MannKendall".)
+- `original` uses a permissive `TrendTest` shape `{trend: str, significant: bool, p_value: float|null, z: float|null, tau: float|null, s: float|null, var_s: float|null, slope: float|null, intercept: float|null}` (replaces "original: MannKendall"); `hamed_rao` keeps the 5-key `HamedRao` shape `{trend, significant, p_value: float|null, tau: float|null, slope: float|null}`. Any non-finite value is serialized as null. (User decision 2026-10-14: the earlier draft here that gave `hamed_rao` all 9 keys was an error and is reverted.)
 - Explicit `null` for `start_date`/`end_date` means the default.
 - `methods` in the response follow the request order, minus skipped ones; `method_range` rows follow `metric_info` order.
 - `record_start`/`record_end` are the min/max dates of the raw fetched series (before any water-year trimming).
