@@ -1,6 +1,6 @@
 # Curated regulated-gauge list: contract (amends docs/baseflow_app_plan.md)
 
-Status: PLAN v1 (user approved 2026-10-14). Motivation: the name/size heuristic reported "unknown" for the Clearwater River at Orofino although it is regulated by Dworshak Dam, so the baseflow mode showed a confident trend on a regulated river.
+Status: PLAN v1 (user approved 2026-10-14). Motivation: the name/size heuristic cannot recognise regulated gauges at ordinary town names (e.g. it returns "unknown" for the Snake River at Weiser or the Boise River at Glenwood Bridge), so the baseflow mode could show a confident trend on a regulated river. (Correction 2026-10-14: an earlier draft named Clearwater R at Orofino, 13340000, as the example; that gauge is upstream of the Dworshak-regulated North Fork and is NOT regulated.)
 
 ## Data file
 `climate_core/catalog/data/regulated_gauges.csv` (UTF-8, header row), one row per gauge:
@@ -12,7 +12,7 @@ Status: PLAN v1 (user approved 2026-10-14). Motivation: the name/size heuristic 
 | `kind` | one of `dam_release`, `diversion`, `reservoir_storage`, `canal_or_return_flow`, `multiple` |
 | `confidence` | `high` (regulation stated by USGS/agency documentation or unambiguous: the gauge is immediately downstream of a named large dam) or `medium` (strong regulation upstream but diluted by large unregulated inflow, or based on general knowledge) |
 | `source_url` | http(s) URL supporting the entry (USGS water data report, agency page, dam page, etc.); blank not allowed for `high` |
-Must include these anchors (tests rely on them): `13340000` (Clearwater R at Orofino; Dworshak Dam), `14105700` (Columbia R at The Dalles), `13290450` (Snake R at Hells Canyon Dam), `13206000` (Boise R at Glenwood Bridge; Lucky Peak/Arrowrock/Anderson Ranch). The list is curated, not exhaustive: absence means "not known to be regulated", NOT "unregulated".
+Must include these anchors (tests rely on them): `13341000` (North Fork Clearwater R at Ahsahka; directly below Dworshak Dam), `14105700` (Columbia R at The Dalles), `13290450` (Snake R at Hells Canyon Dam), `13206000` (Boise R at Glenwood Bridge; Lucky Peak/Arrowrock/Anderson Ranch). The list is curated, not exhaustive: absence means "not known to be regulated", NOT "unregulated".
 
 ## Loader
 `climate_core/catalog/regulation.py` adds `regulated_gauges() -> dict[str, RegulatedGauge]` (cached), `RegulatedGauge` frozen dataclass mirroring the columns. Validates on load: required columns, unique site_no, allowed `kind`/`confidence`, non-empty `regulator`, `high` rows have an http(s) `source_url`; violations raise `ValueError` naming the row.

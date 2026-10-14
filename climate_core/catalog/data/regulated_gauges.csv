@@ -1,0 +1,156 @@
+site_no,name,regulator,kind,confidence,source_url
+10039500,"BEAR RIVER AT BORDER, WY","Bear Lake and upstream reservoirs, irrigation diversions and return flow (Bear River)",multiple,medium,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-04.pdf
+10068500,BEAR RIVER AT PESCADERO ID,Bear Lake releases and irrigation diversions (Bear River),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-04.pdf
+10092700,BEAR RIVER AT IDAHO-UTAH STATE LINE,"Upstream storage reservoirs, hydropower, irrigation diversions and return flow (Bear River)",multiple,medium,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-04.pdf
+11507500,"LINK RIVER AT KLAMATH FALLS, OR",Upper Klamath Lake / Link River Dam (Reclamation Klamath Project),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/gb_klamath.pdf
+11509500,"KLAMATH RIVER AT KENO, OR",Upper Klamath Lake regulation; Keno powerplant; irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/gb_klamath.pdf
+11510700,"KLAMATH RIVER BLW JOHN C.BOYLE PWRPLNT, NR KENO,OR",Upper Klamath Lake regulation; Keno and J.C. Boyle powerplants,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/gb_klamath.pdf
+12026150,"SKOOKUMCHUCK RIVER BL BLDY RUN CR NR CENTRALIA, WA",Skookumchuck Dam (TransAlta/Centralia),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig09.pdf
+12036000,"WYNOOCHEE RIVER ABOVE SAVE CREEK NEAR ABERDEEN, WA",Wynoochee Dam / Wynoochee Lake (Tacoma Public Utilities),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig09.pdf
+12059500,"NORTH FORK SKOKOMISH RIVER NEAR POTLATCH, WA",Lake Cushman and Cushman Reservoir No. 2 (Tacoma Power Cushman Project),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig13.pdf
+12086500,"NISQUALLY RIVER AT LA GRANDE, WA","Tacoma Power La Grande powerplant, Alder and La Grande Reservoirs (Nisqually River)",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig16.pdf
+12089500,"NISQUALLY RIVER AT MCKENNA, WA",Alder and La Grande Reservoirs; Centralia Power Canal diversion (Nisqually River),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig16.pdf
+12098500,"WHITE RIVER NEAR BUCKLEY, WA",Mud Mountain Dam (USACE; flood control),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig18.pdf
+12099200,"WHITE RIVER ABOVE BOISE CREEK AT BUCKLEY, WA",White River Canal diversion to Lake Tapps (Puget Sound Energy),diversion,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig18.pdf
+12105900,"GREEN RIVER BELOW HOWARD A HANSON DAM, WA",Howard A. Hanson Dam (USACE; flood control and low-flow augmentation),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig19.pdf
+12116500,"CEDAR RIVER AT CEDAR FALLS, WA",Chester Morse Lake and Cedar Lake (Seattle Public Utilities),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig20.pdf
+12117600,"CEDAR RIVER BELOW DIVERSION NEAR LANDSBURG, WA",Chester Morse Lake and Cedar Lake; Seattle Landsburg diversion,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig20.pdf
+12137800,"SULTAN RIVER BELOW DIVERSION DAM NEAR SULTAN, WA",Spada Lake / Culmback Dam (Everett/Snohomish PUD),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig21.pdf
+12148000,"SOUTH FORK TOLT RIVER NEAR CARNATION, WA",South Fork Tolt Reservoir (Seattle Public Utilities),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig21.pdf
+12178000,"SKAGIT RIVER AT NEWHALEM, WA","Ross, Diablo and Gorge Reservoirs (Seattle City Light Skagit Project)",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig24.pdf
+12181000,"SKAGIT RIVER AT MARBLEMOUNT, WA","Ross, Diablo and Gorge Reservoirs (Seattle City Light Skagit Project)",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig24.pdf
+12194000,"SKAGIT RIVER NEAR CONCRETE, WA",Skagit Project reservoirs (Seattle City Light) and Baker River project (Puget Sound Energy),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig24.pdf
+12200500,"SKAGIT RIVER NEAR MOUNT VERNON, WA",Skagit Project reservoirs (Seattle City Light) and Baker Lake / Lake Shannon (Puget Sound Energy),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig24.pdf
+12301933,Kootenai River bl Libby Dam nr Libby MT,Libby Dam (USACE),dam_release,high,https://vwvw.krisweb.com/kriskootenai/krisdb/webbuilder/br_c25.htm
+12305000,"KOOTENAI RIVER AT LEONIA, ID",Libby Dam (USACE) since 1972; irrigation diversions,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-04.pdf
+12309500,KOOTENAI RIVER AT BONNERS FERRY ID,Libby Dam (USACE) since 1972,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-04.pdf
+12391950,CLARK FORK RIVER BELOW CABINET GORGE DAM ID,"Cabinet Gorge Dam; Noxon Rapids, Flathead Lake and Hungry Horse upstream",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-04.pdf
+12393000,PRIEST LAKE AT OUTLET NR COOLIN ID,Priest Lake outlet dam (Idaho Dept. of Lands),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-04.pdf
+12395500,PEND OREILLE RIVER AT NEWPORT WA,"Albeni Falls Dam (USACE); Pend Oreille Lake, Flathead Lake, Hungry Horse upstream",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig28.pdf
+12396500,"PEND OREILLE RIVER BELOW BOX CANYON NEAR IONE, WA",Box Canyon Dam (Pend Oreille PUD) and upstream reservoirs,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig28.pdf
+12398560,"BOUNDARY POWERPLANT TW NEAR METALINE FALLS, WA",Boundary Dam powerplant tailwater (Seattle City Light),dam_release,high,https://hydroreform.org/resource/boundary-dam-project-pend-oreille-river-washington/
+12398600,PEND OREILLE RIVER AT INTERNATIONAL BOUNDARY,"Boundary Dam (Seattle City Light), 0.9 mi upstream",dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig28.pdf
+12399500,COLUMBIA RIVER AT INTERNATIONAL BOUNDARY,"Six major Columbia River reservoirs (incl. Mica, Hugh Keenleyside) and powerplants",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig27.pdf
+12419000,"Spokane River near Post Falls, ID",Post Falls Dam (Avista) and Coeur d'Alene Lake storage,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig29.pdf
+12422500,"Spokane River at Spokane, WA",Avista Post Falls and Spokane powerplants; Coeur d'Alene Lake,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig29.pdf
+12426000,"SPOKANE RIVER BELOW NINE MILE DAM AT SPOKANE, WA",Nine Mile Dam (Avista Spokane River Project) and upstream Avista dams,dam_release,medium,https://hydroreform.org/hydro-project/nine-mile-p-2545/
+12439500,"OKANOGAN RIVER AT OROVILLE, WA",Okanagan Lake regulation (Canada) and other upstream regulation; irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig30.pdf
+12447200,"OKANOGAN RIVER AT MALOTT, WA",Okanagan and Skaha Lakes regulation (Canada); irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig30.pdf
+12453690,"ROCKY REACH DAM TW UNIT 10 NEAR WENATCHEE, WA",Rocky Reach Dam tailwater (Chelan PUD; run-of-river/upstream peaking),dam_release,medium,https://hydroreform.org/?p=44501
+12462560,"ROCK ISLAND PP TW UNIT 1 NEAR WENATCHEE, WA",Rock Island Dam powerplant tailwater (Chelan PUD),dam_release,medium,https://hydroreform.org/?p=44297
+12467000,"CRAB CREEK NEAR MOSES LAKE, WA",Return flow from Columbia Basin Project irrigation (Crab Creek),canal_or_return_flow,medium,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig33.pdf
+12472600,"CRAB CREEK NEAR BEVERLY, WA",Potholes Reservoir and Columbia Basin Project return flows (Crab Creek),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig33.pdf
+12472800,"COLUMBIA RIVER BELOW PRIEST RAPIDS DAM, WA",Ten major Columbia River reservoirs and powerplants; irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig33.pdf
+12484500,"YAKIMA RIVER AT UMTANUM, WA","Keechelus, Kachess and Cle Elum Lakes (Reclamation Yakima Project; partial)",reservoir_storage,medium,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig34.pdf
+12500450,"YAKIMA RIVER ABOVE AHTANUM CREEK AT UNION GAP, WA",Reclamation Yakima Project reservoirs (partial) and irrigation diversions,multiple,medium,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig34.pdf
+12505450,"GRANGER DRAIN AT GRANGER, WA","Irrigation return and waste flow (Granger Drain, Yakima Project)",canal_or_return_flow,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig34.pdf
+12508990,"YAKIMA RIVER AT MABTON, WA","Yakima Project reservoirs, irrigation diversions and return flow",multiple,medium,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig34.pdf
+12510500,"YAKIMA RIVER AT KIONA, WA","Yakima Project reservoirs, irrigation diversions (Kiona Canal bypass)",multiple,medium,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig34.pdf
+12513000,"ESQUATZEL COULEE AT CONNELL, WA","Irrigation return and waste flow from imported water (Esquatzel Coulee, Columbia Basin Project)",canal_or_return_flow,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig34.pdf
+13032500,SNAKE RIVER NR IRWIN ID,Jackson Lake Dam and Palisades Dam (Reclamation); irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-05.pdf
+13038000,DRY BED NR RIRIE ID,Dry Bed feeder canal from Snake River controlled by headgates,canal_or_return_flow,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-05.pdf
+13039000,HENRYS LAKE NR LAKE ID,Henrys Lake Dam (Henrys Lake Foundation / Idaho),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-05.pdf
+13046000,HENRYS FORK NR ASHTON ID,"Henrys Lake, Island Park Reservoir and Ashton Dam powerplant",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-05.pdf
+13047500,FALL RIVER NR SQUIRREL ID,Grassy Lake regulation (Fall River); irrigation diversions,reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-05.pdf
+13057132,GREAT WESTERN SPILLBACK NR IDAHO FALLS ID,Great Western Canal return discharge to Snake River,canal_or_return_flow,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-05.pdf
+13058530,WILLOW CREEK BLW FLOODWAY CHANNEL NR UCON ID,Willow Creek flow controlled by headgates; Eagle Rock Canal diversion from Snake River,canal_or_return_flow,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-06.pdf
+13066000,BLACKFOOT RIVER NR SHELLEY ID,Blackfoot Reservoir (Reclamation/Fort Hall Irrigation Project),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-06.pdf
+13069500,SNAKE RIVER NR BLACKFOOT ID,"Upper Snake reservoirs (Jackson Lake, Palisades, Henrys Lake, Island Park, Grassy Lake, Blackfoot)",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-06.pdf
+13073000,PORTNEUF RIVER AT TOPAZ ID,Chesterfield Reservoir (Portneuf River),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-06.pdf
+13075500,PORTNEUF RIVER AT POCATELLO ID,Portneuf Reservoir (Portneuf River),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-06.pdf
+13077000,SNAKE RIVER AT NEELEY ID,American Falls Reservoir (Reclamation) and other reservoirs; large irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-06.pdf
+13081500,SNAKE R NR MINIDOKA ID AT HOWELLS FERRY,"Lake Walcott (Minidoka Dam), American Falls Reservoir and other reservoirs",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-07.pdf
+13087900,MILNER LAKE AT MILNER DAM ID,Milner Dam (diversion dam; Twin Falls Canal Co./North Side Canal Co.),diversion,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-07.pdf
+13087995,SNAKE RIVER GAGING STATION AT MILNER ID,"American Falls Reservoir, Lake Walcott, Milner Lake and other reservoirs",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-07.pdf
+13094000,SNAKE RIVER NR BUHL ID,American Falls Reservoir (Reclamation); hydroelectric plants,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-07.pdf
+13106500,SALMON RIVER CANAL CO RES NR ROGERSON ID,Salmon River Canal Co. reservoir (Salmon Falls Creek),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-07.pdf
+13108150,SALMON FALLS CREEK NR HAGERMAN ID,Salmon River Canal Co. reservoir dam (Salmon Falls Creek),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-07.pdf
+13126000,MACKAY RES NR MACKAY ID,Mackay Dam / Mackay Reservoir (Big Lost River),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13127000,BIG LOST RIVER BL MACKAY RES NR MACKAY ID,Mackay Reservoir (Big Lost River; completely regulated),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13132513,INL DIVERSION AT HEAD NEAR ARCO ID,INL flood-control diversion from Big Lost River; Mackay Reservoir,diversion,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13141500,CAMAS CREEK NR BLAINE ID,Mormon Reservoir (Camas Creek); irrigation diversions,reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13142500,BIG WOOD RIVER BL MAGIC DAM NR RICHFIELD ID,Magic Dam / Magic Reservoir (Big Wood River),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13148500,LITTLE WOOD RIVER NR CAREY ID,Little Wood Reservoir dam (Little Wood River),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13152500,MALAD RIVER NR GOODING ID,Magic Reservoir and tributary reservoirs; canal deliveries from Milner (Malad River),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13154500,SNAKE RIVER AT KING HILL ID,American Falls Reservoir (Reclamation); hydroelectric plants; Milner diversion,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-1/ID04v1-08.pdf
+13171500,CJ STRIKE RES NR GRAND VIEW ID,C.J. Strike Dam (Idaho Power),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13172500,SNAKE RIVER NR MURPHY ID,American Falls Reservoir and upstream storage; C.J. Strike and other hydropower; diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13181000,OWYHEE RIVER NR ROME OR,Antelope and Wild Horse Reservoirs; irrigation diversions (Owyhee River),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13183000,"OWYHEE RIVER BELOW OWYHEE DAM, OR",Owyhee Dam / Lake Owyhee (Reclamation),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13190500,SF BOISE RIVER AT ANDERSON RANCH DAM ID,Anderson Ranch Dam (Reclamation),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13201500,LUCKY PEAK LAKE NR BOISE ID,Lucky Peak Dam / Lucky Peak Lake (USACE),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13206000,BOISE RIVER AT GLENWOOD BRIDGE NR BOISE ID,"Anderson Ranch, Arrowrock (Reclamation) and Lucky Peak (USACE) dams; canal diversions",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13213100,SNAKE RIVER AT NYSSA OR,Many upstream Snake River reservoirs,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-06.pdf
+13236500,DEADWOOD RIVER BL DEADWOOD RES NR LOWMAN ID,Deadwood Dam / Deadwood Reservoir (Reclamation),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-07.pdf
+13239000,NF PAYETTE RIVER AT MCCALL ID,Payette Lake outlet gates (North Fork Payette River),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-07.pdf
+13246000,NF PAYETTE RIVER NR BANKS ID,"Cascade Dam / Cascade Reservoir (Reclamation), Payette Lake, Lake Fork Reservoir",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-07.pdf
+13251000,PAYETTE RIVER NR PAYETTE ID,"Deadwood Dam, Cascade Dam, Black Canyon Dam (Reclamation); irrigation diversions",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-07.pdf
+13265500,CRANE CREEK AT MOUTH NR WEISER ID,Crane Creek Reservoir (Reclamation/Crane Creek Irrigation District),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-07.pdf
+13269000,SNAKE RIVER AT WEISER ID,Many upstream Snake River reservoirs; hydroelectric plants; large irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-07.pdf
+13290450,SNAKE RIVER AT HELLS CANYON DAM ID-OR STATE LINE,Hells Canyon Dam / Brownlee Reservoir (Idaho Power),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-07.pdf
+13317660,SNAKE RIVER AT McDUFF RAPIDS AT CHINA GARDEN ID,Many upstream Snake River reservoirs (Hells Canyon Complex); irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig35.pdf
+13334300,"SNAKE RIVER NEAR ANATONE, WA",Many upstream Snake River reservoirs; irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig35.pdf
+13341000,NF CLEARWATER RIVER AT AHSAHKA ID,"Dworshak Dam (USACE), North Fork Clearwater River",dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-08.pdf
+13341050,CLEARWATER RIVER NR PECK ID,Dworshak Dam (USACE) since 1971,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-08.pdf
+13342500,CLEARWATER RIVER AT SPALDING ID,Dworshak Dam (USACE) since 1972,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-id-04-2/ID04v2-08.pdf
+14034500,"WILLOW CREEK AT HEPPNER, OR",Willow Creek Lake / Willow Creek Dam (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umatilla_willow.pdf
+14076500,"DESCHUTES RIVER NEAR CULVER, OR","Crescent Lake, Crane Prairie and Wickiup Reservoirs; irrigation diversions (Deschutes River)",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/deschutes.pdf
+14087380,"CROOKED RIVER BLW OSBORNE CANYON, NR OPAL CITY, OR",Prineville and Ochoco Reservoirs (Crooked River),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/deschutes.pdf
+14087400,"CROOKED RIVER BELOW OPAL SPRINGS, NEAR CULVER, OR",Prineville and Ochoco Reservoirs; Opal Springs dam (Crooked River),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/deschutes.pdf
+14092500,"DESCHUTES RIVER NEAR MADRAS, OR",Lake Simtustus / Pelton-Round Butte project and upstream reservoirs (Deschutes River),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/deschutes.pdf
+14103000,"DESCHUTES RIVER AT MOODY, NEAR BIGGS, OR","Pelton-Round Butte project, Lake Simtustus, Lake Billy Chinook and upstream storage",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/deschutes.pdf
+14105700,"COLUMBIA RIVER AT THE DALLES, OR",The Dalles Dam and many large upstream Columbia reservoirs; irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig37.pdf
+14128870,"COLUMBIA RIVER BELOW BONNEVILLE DAM, OR",Bonneville Dam and many upstream Columbia reservoirs,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/sandy.pdf
+14142500,"SANDY RIVER BLW BULL RUN RIVER, NR BULL RUN, OR",Bull Run Lake and Reservoirs 1 and 2 (Portland Water Bureau); Bull Run powerplant (PGE),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/sandy.pdf
+14144700,"COLUMBIA RIVER AT VANCOUVER, WA",Many upstream Columbia reservoirs; Bonneville Dam powerplant fluctuations,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/sandy.pdf
+14145110,"HILLS CREEK DAM TAILWATER NEAR OAKRIDGE, OR",Hills Creek Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14145500,"MF WILLAMETTE RIVER ABV SALT CRK, NEAR OAKRIDGE,OR",Hills Creek Lake / Dam (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14149010,"LOOKOUT POINT DAM TAILWATER NEAR LOWELL, OR",Lookout Point Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14149510,"DEXTER DAM TAILWATER AT DEXTER, OR",Dexter Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14150000,"MIDDLE FORK WILLAMETTE RIVER NEAR DEXTER, OR","Lookout Point Dam, Dexter Dam, Hills Creek Dam (USACE)",dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14151000,"FALL CREEK BLW WINBERRY CREEK, NEAR FALL CREEK, OR",Fall Creek Lake / Dam (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14153500,"COAST FORK WILLAMETTE R BLW COTTAGE GROVE DAM, OR","Cottage Grove Dam (USACE), Coast Fork Willamette River",dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14155500,"ROW RIVER NEAR COTTAGE GROVE, OR",Dorena Lake / Dam (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14157500,"COAST FORK WILLAMETTE RIVER NEAR GOSHEN, OR",Cottage Grove Lake and Dorena Lake (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14159410,"COUGAR DAM TAILWATER NEAR RAINBOW, OR",Cougar Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14159500,"SOUTH FORK MCKENZIE RIVER NEAR RAINBOW, OR",Cougar Lake / Dam (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14162200,"BLUE RIVER AT BLUE RIVER, OR",Blue River Lake / Dam (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14162500,"MCKENZIE RIVER NEAR VIDA, OR","Trail Bridge Reservoir (EWEB), Cougar Lake and Blue River Lake (USACE)",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14163150,"MCKENZIE RIVER BLW LEABURG DAM, NR LEABURG, OR","Trail Bridge, Cougar and Blue River Lakes; Leaburg power canal (EWEB)",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14166000,"WILLAMETTE RIVER AT HARRISBURG, OR",Eight Willamette Valley Project reservoirs (USACE); irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14169000,"LONG TOM RIVER NEAR ALVADORE, OR",Fern Ridge Lake / Dam (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14174000,"WILLAMETTE RIVER AT ALBANY, OR",Nine upstream Willamette Valley Project reservoirs (USACE); Albany power canal,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/upper_willamette.pdf
+14180510,"DETROIT DAM TAILWATER NEAR DETROIT, OR",Detroit Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14181410,"BIG CLIFF DAM TAILWATER NEAR NIAGARA, OR",Big Cliff Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14181500,"NORTH SANTIAM RIVER AT NIAGARA, OR",Detroit Lake and Big Cliff Reservoir (USACE),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/santiam.pdf
+14186110,"GREEN PETER DAM TAILWATER NEAR FOSTER, OR",Green Peter Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14186610,"FOSTER DAM TAILWATER AT FOSTER, OR",Foster Dam tailwater (USACE Willamette Valley Project),dam_release,high,https://pubs.usgs.gov/sir/2010/5153/table1.html
+14187600,"LEBANON SANTIAM CANAL NEAR LEBANON, OR",Lebanon Santiam Canal (completely regulated; South Santiam diversion),canal_or_return_flow,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/santiam.pdf
+14189000,"SANTIAM RIVER AT JEFFERSON, OR","Detroit, Green Peter and Foster Lakes (USACE); Salem and Stayton canal diversions",multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/santiam.pdf
+14191000,"WILLAMETTE RIVER AT SALEM, OR",Twelve upstream Willamette Valley Project reservoirs (USACE); Salem Canal diversion,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/lower_willamette1.pdf
+14197900,"WILLAMETTE RIVER AT NEWBERG, OR",Many upstream Willamette reservoirs (USACE); Willamette Falls operations,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/lower_willamette1.pdf
+14203500,"TUALATIN RIVER NEAR DILLEY, OR","Henry Hagg Lake / Scoggins Dam (Tualatin Project, Reclamation); J.W. Barney Reservoir diversions",reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/lower_willamette1.pdf
+14207740,"WILLAMETTE RIVER ABOVE FALLS, AT OREGON CITY, OR",Many upstream Willamette reservoirs (USACE); PGE powerplant at Willamette Falls,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/lower_willamette1.pdf
+14208700,"OAK GROVE FORK NEAR GOVERNMENT CAMP, OR",Timothy Lake (Portland General Electric),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/lower_willamette2.pdf
+14210000,"CLACKAMAS RIVER AT ESTACADA, OR",River Mill and North Fork Dams (PGE); Timothy Lake; Estacada water-supply diversion,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/lower_willamette2.pdf
+14218030,"SWIFT POWERPLANT NO 2 TAILWATER NEAR COUGAR, WA",Swift No. 2 powerhouse tailwater (PacifiCorp Lewis River Project),dam_release,high,https://hydroreform.org/hydro-project/swift-2-p-2213
+14220500,"LEWIS RIVER AT ARIEL, WA","Swift, Yale and Merwin Dams (PacifiCorp Lewis River Project)",dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig38.pdf
+14233500,"COWLITZ RIVER NEAR KOSMOS, WA",Cowlitz Falls Dam (Lewis County PUD) since 1994,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig39.pdf
+14238000,"COWLITZ RIVER BELOW MAYFIELD DAM, WA",Riffe Lake / Mossyrock Dam and Mayfield Dam (Tacoma Power),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig39.pdf
+14243000,"COWLITZ RIVER AT CASTLE ROCK, WA",Riffe Lake / Mossyrock Dam and Mayfield Dam (Tacoma Power),dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig39.pdf
+14246900,"COLUMBIA RIVER AT PORT WESTWARD, NEAR QUINCY, OR",Many upstream Columbia River and tributary reservoirs,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-wa-04-1/pdf/wa00103ADR_Fig39.pdf
+14309000,"COW CREEK NEAR AZALEA, OR",Galesville Dam / Reservoir (USACE) since 1985,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14313200,"N.UMPQUA R ABV WHITE MULE CK, NR TOKETEE FALLS, OR",Lemolo Reservoir (PacifiCorp); Lemolo No. 1 power canal,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14313700,"N.UMPQUA R BLW WARM SPRINGS CK NR TOKETEE FALLS,OR",PacifiCorp North Umpqua Hydroelectric Project,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14314700,"CLEARWATER R BLW MOWICH CREEK, NR TOKETEE FALLS,OR",Clearwater No. 2 power canal diversion dam (PacifiCorp),diversion,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14315500,"NORTH UMPQUA RIVER AT TOKETEE FALLS, OR",Toketee diversion dam and canal (PacifiCorp),diversion,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14315700,"N.UMPQUA R BLW SLIDE CK DAM NR TOKETEE FALLS, OR",Slide Creek diversion dam and canal (PacifiCorp),diversion,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14316455,"N.UMPQUA R BLW SODA SPGS RESV, NR TOKETEE FALLS,OR",Soda Springs Reservoir (PacifiCorp; completely regulated),reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14316500,"N UMPQUA RIVER ABV COPELAND CK NR TOKETEE FALLS,OR",PacifiCorp North Umpqua powerplants; Lemolo Lake and Diamond Lake (slight),multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/umpqua.pdf
+14337600,"ROGUE RIVER NEAR MCLEOD, OR",Lost Creek Lake / Dam (USACE) since 1977; Big Butte Creek diversion,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/rogue.pdf
+14339000,"ROGUE RIVER AT DODGE BRIDGE, NEAR EAGLE POINT, OR",Lost Creek Lake / Dam (USACE) since 1977,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/rogue.pdf
+14354200,"BEAR CREEK BELOW ASHLAND CREEK AT ASHLAND, OR",Emigrant Lake (Reclamation Talent Irrigation District); transbasin diversion,reservoir_storage,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/rogue.pdf
+14359000,"ROGUE RIVER AT RAYGOLD NEAR CENTRAL POINT, OR",Lost Creek Lake (USACE); slight regulation by Fish Lake and Emigrant Lake,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/rogue.pdf
+14361500,"ROGUE RIVER AT GRANTS PASS, OR",Lost Creek Lake (USACE); Savage Rapids Dam; irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/rogue.pdf
+14362000,"APPLEGATE RIVER NEAR COPPER, OR",Applegate Lake / Dam (USACE) since 1980; Squaw Lakes Reservoir,dam_release,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/rogue.pdf
+14372300,"ROGUE RIVER NEAR AGNESS, OR",Lost Creek Lake and Applegate Lake (USACE); irrigation diversions,multiple,high,https://pubs.usgs.gov/wdr/2004/wdr-or-04/pdf/rogue.pdf

@@ -41,7 +41,7 @@ DATA_PATH = Path(reg.__file__).parent / "data" / "regulated_gauges.csv"
 COLUMNS = ["site_no", "name", "regulator", "kind", "confidence", "source_url"]
 KINDS = {"dam_release", "diversion", "reservoir_storage", "canal_or_return_flow", "multiple"}
 CONFIDENCES = {"high", "medium"}
-ANCHORS = ["13340000", "14105700", "13290450", "13206000"]
+ANCHORS = ["13341000", "14105700", "13290450", "13206000"]
 HTTP = re.compile(r"^https?://\S+$")
 
 
@@ -235,19 +235,19 @@ SPREAD = [
 
 
 def test_curated_beats_nonmatching_name_and_small_area():
-    h = regulation_hint("PLAIN CR", 10, site_no="13340000")
+    h = regulation_hint("PLAIN CR", 10, site_no="13341000")
     assert h.level == "regulated"
 
 
 def test_curated_beats_below_pattern_name():
-    h = regulation_hint("SNAKE RIVER BELOW HELLS CANYON", 5000, site_no="13340000")
+    h = regulation_hint("SNAKE RIVER BELOW HELLS CANYON", 5000, site_no="13341000")
     assert h.level == "regulated"
     assert "Station name contains" not in h.reason
 
 
 def test_reason_format():
-    g = regulated_gauges()["13340000"]
-    h = regulation_hint("anything", 1.0, site_no="13340000")
+    g = regulated_gauges()["13341000"]
+    h = regulation_hint("anything", 1.0, site_no="13341000")
     assert isinstance(h, RegulationHint)
     assert h.reason == f"Known regulation: {g.regulator} ({g.kind}, {g.confidence} confidence; curated list)."
 
@@ -280,7 +280,7 @@ def _analysis(site_no):
 
 
 def test_service_curated_site_is_regulated(fetch):
-    r = _analysis("13340000")["meta"]["regulation"]
+    r = _analysis("13341000")["meta"]["regulation"]
     assert r["level"] == "regulated"
     assert "Dworshak" in r["reason"]
 
