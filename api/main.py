@@ -16,7 +16,7 @@ import requests
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import schemas, service, service_paired, service_snow
+from api import schemas, service, service_baseflow, service_paired, service_snow
 from api.auth import install_auth
 from climate_core.catalog import default_catalog, default_snotel_catalog
 from climate_core.pairing import suggest_snotel_for_gage
@@ -128,6 +128,18 @@ def analyze_paired(req: schemas.PairedRequest) -> schemas.PairedResult:
         return service_paired.run_paired_analysis(req)
     except KeyError as e:
         raise HTTPException(status_code=404, detail=str(e).strip("'"))
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except requests.RequestException as e:
+        raise HTTPException(status_code=502, detail=f"Upstream data source error: {e}")
+
+
+@app.post("/api/analyze/baseflow", response_model=schemas.BaseflowResult)
+def analyze_baseflow(req: schemas.BaseflowRequest) -> schemas.BaseflowResult:
+    try:
+        return service_baseflow.run_baseflow_analysis(req)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Site {req.site_no!r} not found.")
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
     except requests.RequestException as e:

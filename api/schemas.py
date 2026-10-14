@@ -8,8 +8,9 @@ site metadata, the climatology envelope, and the per-water-year trend series
 from __future__ import annotations
 
 from datetime import date
+from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 # --------------------------------------------------------------------------- #
@@ -279,3 +280,168 @@ class PairedResult(BaseModel):
     snow_trends: list[TrendSeries]
     streamflow_trends: list[TrendSeries]
     corroboration: Corroboration
+
+
+# --------------------------------------------------------------------------- #
+# Baseflow (USGS hydrograph separation)
+# --------------------------------------------------------------------------- #
+BaseflowMethod = Literal["lyne_hollick", "eckhardt", "local_minimum"]
+DEFAULT_BASEFLOW_START = date(1995, 10, 1)
+DEFAULT_BASEFLOW_END = date(2025, 9, 30)
+
+
+class BaseflowRequest(BaseModel):
+    site_no: str = Field(..., examples=["13340000"])
+    start_date: date = Field(DEFAULT_BASEFLOW_START, description="Null means the default (WY1996 start).")
+    end_date: date = Field(DEFAULT_BASEFLOW_END, description="Null means the default (WY2025 end).")
+    methods: list[BaseflowMethod] = Field(
+        default_factory=lambda: ["lyne_hollick", "eckhardt", "local_minimum"],
+        description="Non-empty, unique separation methods.",
+    )
+    eckhardt_bfi_max: float = Field(0.80, gt=0, lt=1)
+    alpha: float = Field(0.10, gt=0, lt=1, description="Mann-Kendall significance level.")
+    example_water_year: int | None = Field(None, description="Null means the latest complete water year.")
+
+    @field_validator("start_date", "end_date", mode="before")
+    @classmethod
+    def _null_means_default(cls, v, info):
+        if v is None:
+            return DEFAULT_BASEFLOW_START if info.field_name == "start_date" else DEFAULT_BASEFLOW_END
+        return v
+
+    @field_validator("methods")
+    @classmethod
+    def _methods_non_empty_unique(cls, v):
+        if not v:
+            raise ValueError("methods must not be empty")
+        if len(set(v)) != len(v):
+            raise ValueError("methods must be unique")
+        return v
+
+    @model_validator(mode="after")
+    def _start_before_end(self):
+        if not self.start_date < self.end_date:
+            raise ValueError("start_date must be before end_date")
+        return self
+
+
+class TrendTest(BaseModel):
+    """Permissive Mann-Kendall-style result; non-finite values are null."""
+
+    trend: str
+    significant: bool
+    p_value: float | None = None
+    z: float | None = None
+    tau: float | None = None
+    s: float | None = None
+    var_s: float | None = None
+    slope: float | None = None
+    intercept: float | None = None
+
+
+class HamedRao(BaseModel):
+    """Autocorrelation-robust trend test; non-finite values are null."""
+
+    trend: str
+    significant: bool
+    p_value: float | None = None
+    tau: float | None = None
+    slope: float | None = None
+
+
+class BaseflowTrend(BaseModel):
+    original: TrendTest
+    hamed_rao: HamedRao
+    slope_pct_per_decade: float | None = None
+
+
+class RegulationOut(BaseModel):
+    level: str
+    reason: str
+
+
+class BaseflowMeta(BaseModel):
+    site: SiteOut
+    units: str
+    window_start: str
+    window_end: str
+    record_start: str
+    record_end: str
+    water_years: list[int]
+    eckhardt_bfi_max: float
+    alpha: float
+    regulation: RegulationOut
+    caveats: list[str]
+
+
+class BaseflowMetricInfo(BaseModel):
+    key: str
+    label: str
+    unit: str
+    description: str
+
+
+class SkippedRun(BaseModel):
+    start: str
+    end: str
+
+
+class ExcludedWaterYear(BaseModel):
+    water_year: int
+    reason: str
+
+
+class BaseflowQuality(BaseModel):
+    n_interpolated: int
+    skipped_runs: list[SkippedRun]
+    excluded_water_years: list[ExcludedWaterYear]
+
+
+class BaseflowYearMetrics(BaseModel):
+    water_year: int
+    bfi: float | None = None
+    baseflow_af: float | None = None
+    junjul_baseflow_cfs: float | None = None
+    augsep_baseflow_cfs: float | None = None
+    min7_baseflow_cfs: float | None = None
+    baseflow_cot_dowy: float | None = None
+    recession_k: float | None = None
+
+
+class BaseflowMethodResult(BaseModel):
+    method: str
+    label: str
+    quality: BaseflowQuality
+    metrics: list[BaseflowYearMetrics]
+    trends: dict[str, BaseflowTrend | None]
+
+
+class BaseflowRangeRow(BaseModel):
+    metric: str
+    min: float | None = None
+    median: float | None = None
+    max: float | None = None
+    n_sig_decreasing: int
+    n_sig_increasing: int
+    n_methods: int
+
+
+class SkippedMethod(BaseModel):
+    method: str
+    reason: str
+
+
+class BaseflowExample(BaseModel):
+    water_year: int
+    dates: list[str]
+    flow_cfs: list[float | None]
+    baseflow_cfs: dict[str, list[float | None]]
+
+
+class BaseflowResult(BaseModel):
+    meta: BaseflowMeta
+    metric_info: list[BaseflowMetricInfo]
+    methods: list[BaseflowMethodResult]
+    method_range: list[BaseflowRangeRow]
+    skipped_methods: list[SkippedMethod]
+    example: BaseflowExample
