@@ -16,7 +16,7 @@ import requests
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import schemas, service, service_baseflow, service_paired, service_snow
+from api import regulation_filter, schemas, service, service_baseflow, service_paired, service_snow
 from api.auth import install_auth
 from climate_core.catalog import default_catalog, default_snotel_catalog
 from climate_core.pairing import suggest_snotel_for_gage
@@ -53,25 +53,32 @@ def health() -> dict:
     }
 
 
-@app.get("/api/sites", response_model=list[schemas.SiteOut])
+@app.get("/api/sites", response_model=list[schemas.SiteWithRegulation])
 def list_sites(
     query: str | None = Query(None, description="Case-insensitive name substring."),
     state: str | None = Query(None, description="WA | OR | ID."),
     basin: str | None = Query(None),
+    regulation: str | None = Query(
+        None, description="Comma-separated regulation levels: regulated, likely_regulated, likely_unregulated, unknown."
+    ),
     limit: int = Query(500, ge=1, le=2000),
-) -> list[schemas.SiteOut]:
+) -> list[schemas.SiteWithRegulation]:
+    try:
+        levels = regulation_filter.parse_levels(regulation)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     catalog = default_catalog()
     sites = catalog.search(query=query, state=state, basin=basin) if (query or state or basin) else catalog.all()
-    return [schemas.SiteOut(**s.to_dict()) for s in sites[:limit]]
+    return regulation_filter.filter_sites(sites, levels, limit)
 
 
-@app.get("/api/sites/{site_no}", response_model=schemas.SiteOut)
-def get_site(site_no: str) -> schemas.SiteOut:
+@app.get("/api/sites/{site_no}", response_model=schemas.SiteWithRegulation)
+def get_site(site_no: str) -> schemas.SiteWithRegulation:
     try:
         site = default_catalog().get(site_no)
     except KeyError:
         raise HTTPException(status_code=404, detail=f"Site {site_no!r} not found.")
-    return schemas.SiteOut(**site.to_dict())
+    return regulation_filter.with_regulation(site)
 
 
 @app.post("/api/analyze", response_model=schemas.AnalysisResult)

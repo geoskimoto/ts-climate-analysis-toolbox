@@ -18,6 +18,9 @@ LIKELY_REGULATED = "likely_regulated"
 LIKELY_UNREGULATED = "likely_unregulated"
 UNKNOWN = "unknown"
 
+# Single source of truth for valid levels; regulation_hint returns only these.
+REGULATION_LEVELS: tuple[str, ...] = (REGULATED, LIKELY_REGULATED, LIKELY_UNREGULATED, UNKNOWN)
+
 SMALL_BASIN_SQMI = 200.0   # below this (and > 0) the basin is "likely unregulated"
 
 _REGULATED_PATH = Path(__file__).parent / "data" / "regulated_gauges.csv"

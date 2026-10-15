@@ -27,6 +27,13 @@ class SiteOut(BaseModel):
     elevation_ft: float | None = None
 
 
+class SiteWithRegulation(SiteOut):
+    """Site metadata plus the regulation hint (see climate_core.catalog.regulation)."""
+
+    regulation_level: str
+    regulation_reason: str
+
+
 # --------------------------------------------------------------------------- #
 # Analysis request
 # --------------------------------------------------------------------------- #
