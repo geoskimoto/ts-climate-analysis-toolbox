@@ -1,10 +1,21 @@
 import { MapContainer, TileLayer, CircleMarker, Tooltip } from 'react-leaflet'
-import { SERIES_BLUE } from '../palette'
+import { SERIES_BLUE, REG_VERMILION, REG_GREY } from '../palette'
+
+// Regulation encoded by fill + ring, not colour alone.
+function regStyle(level, isSel) {
+  if (isSel) return { color: '#0b0b0b', weight: 2, fillColor: '#e34948', fillOpacity: 0.95 }
+  if (level === 'regulated' || level === 'likely_regulated')
+    return { color: '#0b0b0b', weight: 3, fillColor: REG_VERMILION, fillOpacity: 0.9 }
+  if (level === 'likely_unregulated')
+    return { color: SERIES_BLUE, weight: 1, fillColor: SERIES_BLUE, fillOpacity: 0.55 }
+  return { color: REG_GREY, weight: 2, fillColor: REG_GREY, fillOpacity: 0 }
+}
 
 // Map of all catalog sites; click a marker to select it. The selected site is
 // enlarged and recolored so identity follows the entity, not the marker order.
-export default function SiteMap({ sites, selected, onSelect }) {
+export default function SiteMap({ sites, selected, onSelect, regMarkers }) {
   return (
+    <>
     <MapContainer center={[46.2, -119.5]} zoom={6} className="site-map" preferCanvas>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -20,7 +31,7 @@ export default function SiteMap({ sites, selected, onSelect }) {
             key={s.id}
             center={[s.lat, s.long]}
             radius={isSel ? 8 : 4}
-            pathOptions={{
+            pathOptions={regMarkers ? regStyle(s.regulation_level, isSel) : {
               color: isSel ? '#0b0b0b' : SERIES_BLUE,
               weight: isSel ? 2 : 1,
               fillColor: isSel ? '#e34948' : SERIES_BLUE,
@@ -33,5 +44,13 @@ export default function SiteMap({ sites, selected, onSelect }) {
         )
       })}
     </MapContainer>
+    {regMarkers && (
+      <div className="map-legend" aria-label="Map legend">
+        <span><i className="map-legend__dot map-legend__dot--reg" /> Regulated</span>
+        <span><i className="map-legend__dot map-legend__dot--unreg" /> Likely unregulated</span>
+        <span><i className="map-legend__dot map-legend__dot--unk" /> Unknown</span>
+      </div>
+    )}
+    </>
   )
 }

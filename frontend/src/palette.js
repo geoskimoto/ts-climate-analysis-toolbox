@@ -53,3 +53,7 @@ export const METHOD_STYLE = {
 }
 export const METHOD_STYLE_FALLBACK = { color: '#CC79A7', symbol: 'triangle-up', dash: 'longdash' }
 export const methodStyle = (m) => METHOD_STYLE[m] || METHOD_STYLE_FALLBACK
+
+// Regulation map markers (Okabe-Ito vermilion; neutral grey for unknown).
+export const REG_VERMILION = '#D55E00'
+export const REG_GREY = '#767570'

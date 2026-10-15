@@ -196,3 +196,19 @@ body {
 .bf-reg { flex-wrap: wrap; border-radius: 10px; }
 .bf-reg--strong { background: #fde8e6; border: 2px solid #b3261e; color: #7a1410; font-size: 13px; padding: 8px 12px; }
 .bf-reg__sentence { flex-basis: 100%; font-weight: 650; }
+
+/* Regulation filter / badges / map legend */
+.reg-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.reg-filter__label { font-size: 11.5px; color: var(--ink-3); margin-right: 2px; }
+.reg-chip { padding: 3px 9px; border: 1px solid var(--line-2); background: #fff; color: var(--ink-2); border-radius: 14px; font: inherit; font-size: 12px; cursor: pointer; }
+.reg-chip--on { background: #eaf1fb; border-color: var(--blue); color: var(--ink-1); font-weight: 600; }
+.reg-chip__n { color: var(--ink-3); font-variant-numeric: tabular-nums; font-weight: 400; }
+.reg-chip:focus-visible, .state-tab:focus-visible, .site-item:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.reg-badge { margin-left: 6px; padding: 0 6px; border-radius: 10px; font-size: 10.5px; font-weight: 600; background: #f0efec; color: var(--ink-2); }
+.reg-badge--regulated { background: #fde8e6; color: #7a1410; }
+.reg-badge--likely_regulated { background: #fff4d6; color: #7a4f00; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 4px 12px; font-size: 11px; color: var(--ink-2); border-bottom: 1px solid var(--line); background: var(--panel); }
+.map-legend__dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; box-sizing: border-box; }
+.map-legend__dot--reg { background: #D55E00; border: 3px solid #0b0b0b; }
+.map-legend__dot--unreg { background: #2a78d6; border: 1px solid #2a78d6; }
+.map-legend__dot--unk { background: transparent; border: 2px solid #767570; }

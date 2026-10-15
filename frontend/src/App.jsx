@@ -47,9 +47,23 @@ const STATES = {
 // Normalise both catalogs to a common display shape for the map/list.
 function toDisplay(s, source) {
   return source !== 'snow'
-    ? { id: s.site_no, name: s.name, state: s.state, lat: s.lat, long: s.long }
+    ? {
+        id: s.site_no, name: s.name, state: s.state, lat: s.lat, long: s.long,
+        regulation_level: s.regulation_level ?? 'unknown',
+        regulation_reason: s.regulation_reason ?? null,
+        hasRegulation: s.regulation_level != null,
+      }
     : { id: s.station_triplet, name: s.name, state: s.state, lat: s.lat, long: s.long }
 }
+
+// Filter chip -> the API regulation levels it covers.
+const REG_GROUPS = {
+  regulated: ['regulated', 'likely_regulated'],
+  unregulated: ['likely_unregulated'],
+  unknown: ['unknown'],
+}
+const ALL_REG = { regulated: true, unregulated: true, unknown: true }
+const regGroup = (level) => (REG_GROUPS.regulated.includes(level) ? 'regulated' : level === 'likely_unregulated' ? 'unregulated' : 'unknown')
 
 export default function App() {
   const [source, setSource] = useState('streamflow')
@@ -57,6 +71,7 @@ export default function App() {
   const [sitesLoading, setSitesLoading] = useState(true)
   const [query, setQuery] = useState('')
   const [state, setState] = useState('')
+  const [regFilter, setRegFilter] = useState(ALL_REG)
 
   const [selected, setSelected] = useState(null)
   const [params, setParams] = useState(DEFAULT_PARAMS)
@@ -75,6 +90,7 @@ export default function App() {
     setError(null)
     setQuery('')
     setState('')
+    setRegFilter(ALL_REG)
     const loader = source !== 'snow' ? listSites : listSnotelSites
     loader({})
       .then((list) => setAllSites(list.map((s) => toDisplay(s, source))))
@@ -82,11 +98,16 @@ export default function App() {
       .finally(() => setSitesLoading(false))
   }, [source])
 
-  const filtered = allSites.filter(
+  const baseFiltered = allSites.filter(
     (s) =>
       (!state || s.state === state) &&
       (!query || s.name.toLowerCase().includes(query.toLowerCase())),
   )
+  // Regulation filter: streamflow/baseflow only, and only if the API supplies it.
+  const showRegFilter = source !== 'snow' && allSites.length > 0 && allSites.every((s) => s.hasRegulation)
+  const regCounts = { regulated: 0, unregulated: 0, unknown: 0 }
+  baseFiltered.forEach((s) => { regCounts[regGroup(s.regulation_level)] += 1 })
+  const filtered = showRegFilter ? baseFiltered.filter((s) => regFilter[regGroup(s.regulation_level)]) : baseFiltered
 
   const run = useCallback(
     async (site) => {
@@ -152,6 +173,11 @@ export default function App() {
           state={state}
           setState={setState}
           states={STATES[source]}
+          showRegFilter={showRegFilter}
+          regFilter={regFilter}
+          setRegFilter={setRegFilter}
+          regCounts={regCounts}
+          regMarkers={source !== 'snow'}
           selected={selected}
           onSelect={onSelect}
         />
