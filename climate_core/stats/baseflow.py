@@ -52,6 +52,8 @@ class QualityReport:
     n_interpolated: int = 0                                   # days filled by the <=3-day rule
     skipped_runs: list[tuple[pd.Timestamp, pd.Timestamp]] = field(default_factory=list)
     excluded_water_years: dict[int, str] = field(default_factory=dict)
+    # interpolated days per full-coverage water year examined (incl. excluded ones)
+    n_interpolated_by_wy: dict[int, int] = field(default_factory=dict)
 
 
 # --------------------------------------------------------------------------
@@ -151,8 +153,10 @@ _SEPARATORS: dict[str, Callable[..., np.ndarray]] = {
 # --------------------------------------------------------------------------
 # Data-quality preparation
 # --------------------------------------------------------------------------
-def _prepare(series: pd.Series) -> tuple[pd.Series, np.ndarray, int]:
-    """Daily-reindex ``series``; blank negatives; fill gaps <= 3 days.
+def _prepare(
+    series: pd.Series, max_gap_days: int = _MAX_GAP_DAYS
+) -> tuple[pd.Series, np.ndarray, int]:
+    """Daily-reindex ``series``; blank negatives; fill gaps <= ``max_gap_days``.
 
     Returns (clean series with NaN for long gaps, interpolated-flag array,
     n_interpolated).
@@ -179,7 +183,7 @@ def _prepare(series: pd.Series) -> tuple[pd.Series, np.ndarray, int]:
         while j < n and isna[j]:
             j += 1
         # interior gap short enough to fill (needs a valid value on both sides)
-        if i > 0 and j < n and (j - i) <= _MAX_GAP_DAYS:
+        if i > 0 and j < n and (j - i) <= max_gap_days:
             filled[i:j] = True
         i = j
     if filled.any():
@@ -203,8 +207,18 @@ def _contiguous_runs(valid: np.ndarray) -> list[tuple[int, int]]:
     return runs
 
 
-def _wy_metrics(dates: pd.DatetimeIndex, q: np.ndarray, b: np.ndarray) -> dict:
-    """Metrics for one complete water year (arrays aligned with ``dates``)."""
+def _wy_metrics(
+    dates: pd.DatetimeIndex,
+    q: np.ndarray,
+    b: np.ndarray,
+    filled: np.ndarray | None = None,
+    min_window_coverage: float | None = None,
+) -> dict:
+    """Metrics for one complete water year (arrays aligned with ``dates``).
+
+    With ``min_window_coverage`` set, a window metric is NaN when the observed
+    (non-interpolated) fraction of its window is below that value.
+    """
     sum_q, sum_b = q.sum(), b.sum()
     month = dates.month
     day = dates.day
@@ -224,14 +238,21 @@ def _wy_metrics(dates: pd.DatetimeIndex, q: np.ndarray, b: np.ndarray) -> dict:
     # b[t] < b[t-1] implies b[t-1] > 0, so the ratio is always defined.
     k = float(np.median(b[falling] / b[falling - 1])) if len(falling) >= 10 else np.nan
 
+    def covered(mask: np.ndarray) -> bool:
+        if min_window_coverage is None or filled is None:
+            return True
+        return 1.0 - filled[mask].mean() >= min_window_coverage
+
+    all_days = np.ones(len(dates), dtype=bool)
+    nan = float("nan")
     return {
         "bfi": float(bfi),
         "baseflow_af": float(sum_b * _CFS_DAY_TO_AF),
-        "junjul_baseflow_cfs": float(b[(month == 6) | (month == 7)].mean()),
-        "augsep_baseflow_cfs": float(b[(month == 8) | (month == 9)].mean()),
-        "min7_baseflow_cfs": float(min7),
+        "junjul_baseflow_cfs": float(b[(month == 6) | (month == 7)].mean()) if covered((month == 6) | (month == 7)) else nan,
+        "augsep_baseflow_cfs": float(b[(month == 8) | (month == 9)].mean()) if covered((month == 8) | (month == 9)) else nan,
+        "min7_baseflow_cfs": float(min7) if covered(all_days) else nan,
         "baseflow_cot_dowy": cot,
-        "recession_k": k,
+        "recession_k": k if covered(rec_window) else nan,
     }
 
 
@@ -239,6 +260,10 @@ def water_year_metrics(
     series: pd.Series,
     method: str,
     drainage_area_sqmi: float | None = None,
+    *,
+    max_gap_days: int = _MAX_GAP_DAYS,
+    max_interp_frac: float = _MAX_INTERP_FRAC,
+    min_window_coverage: float | None = None,
     **method_kwargs,
 ) -> tuple[pd.DataFrame, QualityReport]:
     """Per-water-year baseflow metrics for a daily-mean discharge series (cfs).
@@ -248,13 +273,24 @@ def water_year_metrics(
     or > 1 % interpolated water years excluded with a reason). Returns one row
     per complete water year (columns as in spec section 5, RangeIndex) and a
     :class:`QualityReport`.
+
+    Policy knobs (spec 3b; defaults reproduce v1): ``max_gap_days`` (>= 1),
+    ``max_interp_frac`` in [0, 1) (WY excluded if its interpolated fraction is
+    greater), ``min_window_coverage`` in (0, 1] or None (window metrics become
+    NaN when the observed fraction of their window is lower).
     """
+    if max_gap_days < 1:
+        raise ValueError("max_gap_days must be >= 1")
+    if not 0.0 <= max_interp_frac < 1.0:
+        raise ValueError("max_interp_frac must be in [0, 1)")
+    if min_window_coverage is not None and not 0.0 < min_window_coverage <= 1.0:
+        raise ValueError("min_window_coverage must be in (0, 1]")
     if method not in METHODS:
         raise ValueError(f"unknown method {method!r}; expected one of {METHODS}")
     if method == "local_minimum" and drainage_area_sqmi is None:
         raise ValueError("drainage_area_sqmi is required for method 'local_minimum'")
 
-    s, filled, n_interp = _prepare(series)
+    s, filled, n_interp = _prepare(series, max_gap_days)
     report = QualityReport(n_interpolated=n_interp)
     if len(s) == 0:
         return pd.DataFrame(columns=_METRIC_COLUMNS), report
@@ -285,18 +321,21 @@ def water_year_metrics(
             report.excluded_water_years[wy] = "series does not cover the full water year"
             continue
         pos = s.index.get_indexer(wy_days)
+        n_fill = int(filled[pos].sum())
+        report.n_interpolated_by_wy[wy] = n_fill
         if not in_run[pos].all():
             report.excluded_water_years[wy] = (
                 "contains days outside a filtered run (gap > 3 days or run < 365 days)"
             )
             continue
-        frac = filled[pos].mean()
-        if frac > _MAX_INTERP_FRAC:
+        frac = n_fill / len(wy_days)
+        if frac > max_interp_frac:
             report.excluded_water_years[wy] = (
-                f"{frac:.1%} of days interpolated (limit {_MAX_INTERP_FRAC:.0%})"
+                f"{n_fill} of {len(wy_days)} days interpolated ({frac * 100:.1f}%) "
+                f"exceeds {max_interp_frac * 100:g}%"
             )
             continue
-        rows.append({"water_year": wy, **_wy_metrics(wy_days, q_all[pos], b_all[pos])})
+        rows.append({"water_year": wy, **_wy_metrics(wy_days, q_all[pos], b_all[pos], filled[pos], min_window_coverage)})
 
     df = pd.DataFrame(rows, columns=_METRIC_COLUMNS).reset_index(drop=True)
     return df, report
