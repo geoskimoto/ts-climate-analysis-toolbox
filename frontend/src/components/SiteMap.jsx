@@ -7,7 +7,10 @@ export default function SiteMap({ sites, selected, onSelect }) {
   return (
     <MapContainer center={[46.2, -119.5]} zoom={6} className="site-map" preferCanvas>
       <TileLayer
-        attribution='&copy; OpenStreetMap contributors'
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        // Send the origin as Referer even under a strict document policy
+        // (nginx sends same-origin); OSM's tile policy rejects tiles without one.
+        referrerPolicy="origin"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {sites.map((s) => {
