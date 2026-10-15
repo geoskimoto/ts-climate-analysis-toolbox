@@ -18,6 +18,9 @@ Computed with `climate_core.catalog.regulation.regulation_hint(name, drainage_ar
 ### Helper
 `climate_core/catalog/regulation.py` (or a small new module) exposes `REGULATION_LEVELS: tuple[str, ...] = ("regulated", "likely_regulated", "likely_unregulated", "unknown")` as the single source of truth for valid levels; `regulation_hint` must only ever return these.
 
+### Clarifications (after test authoring)
+- Level names are case-sensitive (`Regulated` -> 422). The 422 `detail` must contain each bad value (shape otherwise free). `regulation_reason` equals `regulation_hint(...).reason` exactly. A value of only commas/whitespace (e.g. `regulation=,`) is treated as empty, i.e. no filter.
+
 ## Frontend
 - A "Regulation" filter group in the sidebar for the streamflow and baseflow modes (hidden in snow mode), three toggle chips (multi-select, all on by default, at least one must stay on): **Regulated** (= regulated + likely_regulated), **Unregulated** (= likely_unregulated), **Unknown**. Each chip shows its count within the current state/search filter. Clicking filters the list AND the map (client-side using `regulation_level` from the API; the API param exists for other clients).
 - Map markers encode regulation by more than colour: regulated = filled orange-vermilion with a thick dark ring; unregulated = filled blue; unknown = hollow grey ring. A small legend under the map explains them. The selected-site styling is unchanged.
