@@ -18,6 +18,15 @@ Hydrograph-separation baseflow and per-water-year metrics with Mann-Kendall tren
 - Each run must be >= 365 days to be filtered; shorter runs are reported in `QualityReport.skipped_runs`.
 - A water year is **complete** only if all its days lie inside a filtered run (after the <=3-day interpolation) and <= 1% of its days were interpolated. Incomplete water years are excluded from metrics and listed in `QualityReport.excluded_water_years` with a reason. Nothing is dropped silently.
 
+## 3b. Configurable data-quality policy (v2, added 2026-10-15; defaults reproduce v1 exactly)
+`water_year_metrics(series, method, drainage_area_sqmi=None, *, max_gap_days=3, max_interp_frac=0.01, min_window_coverage=None, **method_kwargs)`.
+- `max_gap_days` (int >= 1, default 3): gaps of at most this many consecutive missing days are linearly interpolated (replaces the fixed 3); longer gaps split the series into runs. `ValueError` if < 1.
+- `max_interp_frac` (float in [0, 1), default 0.01): a water year is excluded if the fraction of its days that were interpolated is **greater than** this value (v1 used 0.01). Reason text: `"<n> of <N> days interpolated (<pct>%) exceeds <limit>%"`. `ValueError` outside [0, 1).
+- `min_window_coverage` (float in (0, 1] or None, default None = off): for the **window metrics** `junjul_baseflow_cfs`, `augsep_baseflow_cfs`, a water year keeps the metric only if the fraction of days in the window that are **observed (not interpolated)** is >= this value; otherwise that metric is NaN for the water year (other metrics unaffected). `min7_baseflow_cfs` and `recession_k` use the same rule on their windows (the whole water year and Jul 15 - Oct 31). `ValueError` outside (0, 1].
+- `QualityReport` gains `n_interpolated_by_wy: dict[int, int]` (default empty): the number of interpolated days in every complete-looking water year examined (including excluded ones), keyed by water year; `n_interpolated` is unchanged (total).
+- With the defaults every output is identical to v1 (locked v1 tests must keep passing).
+- Rationale (user decision 2026-10-15, to test as a sensitivity): allow up to 15 consecutive missing days and up to 10% of a water year interpolated; the optional window-coverage rule guards the Jun-Jul and Aug-Sep windows, where a 15-day gap is 25% of the 61-day window.
+
 ## 4. Separation methods (pure functions, numpy in/out, same length as input)
 All return baseflow `b` with `0 <= b <= q` elementwise, `b` finite for finite `q`.
 
