@@ -71,3 +71,8 @@ export function analyzeBaseflow(request) {
     body: JSON.stringify(request),
   }).then(json)
 }
+
+// Default analysis window (start / last complete water-year end), from the backend.
+export function getDefaults() {
+  return fetch('/api/defaults').then(json)
+}
