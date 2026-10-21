@@ -60,7 +60,9 @@ fi
 step "Preflight on $APP_DIR (as $SITE_USER)"
 as_site test -d "$APP_DIR/.git" || die "$APP_DIR is not a git clone readable by $SITE_USER; adjust APP_DIR or set it up first."
 as_site test -x "$VENV/bin/python" || die "No virtualenv at $VENV."
-as_site command -v npm >/dev/null || die "npm is not available to $SITE_USER; the frontend cannot be built there."
+# `command` is a shell builtin, so it must run inside a (login) shell, not directly under sudo.
+as_site bash -lc 'command -v npm' >/dev/null \
+  || die "npm is not on $SITE_USER's login PATH; install Node system-wide or set up PATH for $SITE_USER."
 OLD_SHA="$(as_site git -C "$APP_DIR" rev-parse HEAD)"
 echo "Currently deployed: $OLD_SHA"
 echo "Deploying:          $REMOTE_SHA ($BRANCH)"
@@ -81,7 +83,7 @@ fi
 
 # 5. Build the frontend from the lockfile. ----------------------------------------
 step "Building frontend"
-run as_site bash -c "cd '$APP_DIR/frontend' && npm ci --silent && npm run build --silent"
+run as_site bash -lc "cd '$APP_DIR/frontend' && npm ci --silent && npm run build --silent"
 
 # 6. Restart and verify. ----------------------------------------------------------
 step "Restarting $SERVICE"
