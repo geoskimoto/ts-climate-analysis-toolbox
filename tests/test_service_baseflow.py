@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import math
 import warnings
+from datetime import date
 
 import numpy as np
 import pandas as pd
@@ -41,6 +42,7 @@ METHOD_LABELS = {
 }
 ALL = ["lyne_hollick", "eckhardt", "local_minimum"]
 DEFAULT_WYS = list(range(1996, 2026))
+DATA_WYS = list(range(1991, 2026))  # full synthetic record
 
 
 # --------------------------------------------------------------------------- #
@@ -100,12 +102,14 @@ def daily() -> pd.DataFrame:
 
 @pytest.fixture
 def fetch(monkeypatch, daily) -> FakeFetch:
+    # Default window is dynamic (api.defaults); pin "today" so it is 1985-10-01..2026-09-30.
+    monkeypatch.setattr("api.defaults._today", lambda: date(2026, 10, 21))
     f = FakeFetch(daily)
     monkeypatch.setattr(service, "_fetch_raw", f)
     return f
 
 
-def window_series(df: pd.DataFrame, start="1995-10-01", end="2025-09-30") -> pd.Series:
+def window_series(df: pd.DataFrame, start="1985-10-01", end="2026-09-30") -> pd.Series:
     s = pd.Series(df["Discharge"].to_numpy(dtype=float), index=pd.to_datetime(df["Date"]))
     return s.loc[start:end]
 
@@ -152,10 +156,11 @@ def walk_floats(o):
 # --------------------------------------------------------------------------- #
 # Defaults and request validation
 # --------------------------------------------------------------------------- #
-def test_request_defaults():
+def test_request_defaults(monkeypatch):
+    monkeypatch.setattr("api.defaults._today", lambda: date(2026, 10, 21))
     r = schemas.BaseflowRequest(site_no=SITE)
-    assert str(r.start_date) == "1995-10-01"
-    assert str(r.end_date) == "2025-09-30"
+    assert str(r.start_date) == "1985-10-01"
+    assert str(r.end_date) == "2026-09-30"
     assert list(r.methods) == ALL or set(r.methods) == set(ALL)
     assert r.eckhardt_bfi_max == 0.80
     assert r.alpha == 0.10
@@ -165,22 +170,23 @@ def test_request_defaults():
 def test_defaults_window_wy1996_2025(fetch):
     d = run()
     assert [c[0] for c in fetch.calls][0] == SITE
-    assert str(fetch.calls[0][1])[:10] == "1995-10-01"
-    assert str(fetch.calls[0][2])[:10] == "2025-09-30"
+    assert str(fetch.calls[0][1])[:10] == "1985-10-01"
+    assert str(fetch.calls[0][2])[:10] == "2026-09-30"
     m = d["meta"]
-    assert m["window_start"] == "1995-10-01"
-    assert m["window_end"] == "2025-09-30"
-    assert m["water_years"] == DEFAULT_WYS
+    assert m["window_start"] == "1985-10-01"
+    assert m["window_end"] == "2026-09-30"
+    # synthetic record only spans WY1991-2025, so results are bounded by the data
+    assert m["water_years"] == DATA_WYS
     assert m["units"] == "cfs"
     assert m["eckhardt_bfi_max"] == 0.80
     assert m["alpha"] == 0.10
     assert m["site"]["site_no"] == SITE
-    assert m["record_start"] == "1995-10-01"
+    assert m["record_start"] == "1990-10-01"
     assert m["record_end"] == "2025-09-30"
     assert {x["method"] for x in d["methods"]} == set(ALL)
     assert d["skipped_methods"] == []
     for x in d["methods"]:
-        assert [r["water_year"] for r in x["metrics"]] == DEFAULT_WYS
+        assert [r["water_year"] for r in x["metrics"]] == DATA_WYS
 
 
 def test_meta_water_years_are_those_of_first_method_that_ran(fetch):

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import math
+from datetime import date
 
 import numpy as np
 import pandas as pd
@@ -119,7 +120,8 @@ def finite_floats(o):
 # --------------------------------------------------------------------------- #
 # 200: payload shape
 # --------------------------------------------------------------------------- #
-def test_full_payload_shape(fetch):
+def test_full_payload_shape(fetch, monkeypatch):
+    monkeypatch.setattr("api.defaults._today", lambda: date(2026, 10, 21))
     r = post()
     assert r.status_code == 200, r.text
     data = strict_json(r.text)
@@ -133,8 +135,9 @@ def test_full_payload_shape(fetch):
     assert meta["site"]["site_no"] == SITE
     assert "CLEARWATER" in meta["site"]["name"].upper()
     assert meta["units"] == "cfs"
-    assert (meta["window_start"], meta["window_end"]) == ("1995-10-01", "2025-09-30")
-    assert meta["water_years"] == list(range(1996, 2026))
+    assert (meta["window_start"], meta["window_end"]) == ("1985-10-01", "2026-09-30")
+    # synthetic record only spans WY1991-2025, so results are bounded by the data
+    assert meta["water_years"] == list(range(1991, 2026))
     assert meta["eckhardt_bfi_max"] == 0.8 and meta["alpha"] == 0.1
     assert set(meta["regulation"]) == {"level", "reason"}
     assert meta["regulation"]["level"] in {"likely_regulated", "likely_unregulated", "unknown"}
@@ -148,7 +151,7 @@ def test_full_payload_shape(fetch):
         assert set(m) == {"method", "label", "quality", "metrics", "trends"}
         assert set(m["quality"]) == {"n_interpolated", "skipped_runs", "excluded_water_years"}
         assert isinstance(m["quality"]["n_interpolated"], int)
-        assert len(m["metrics"]) == 30
+        assert len(m["metrics"]) == 35  # WY1991-2025 (data-bounded)
         assert set(m["metrics"][0]) == {"water_year", *METRIC_KEYS}
         assert [x["water_year"] for x in m["metrics"]] == sorted(x["water_year"] for x in m["metrics"])
         assert set(m["trends"]) == set(METRIC_KEYS)
@@ -173,11 +176,12 @@ def test_full_payload_shape(fetch):
     assert all(len(v) == 365 for v in ex["baseflow_cfs"].values())
 
 
-def test_fetch_called_with_site_and_default_window(fetch):
+def test_fetch_called_with_site_and_default_window(fetch, monkeypatch):
+    monkeypatch.setattr("api.defaults._today", lambda: date(2026, 10, 21))
     post()
     assert fetch.calls and fetch.calls[0][0] == SITE
-    assert str(fetch.calls[0][1])[:10] == "1995-10-01"
-    assert str(fetch.calls[0][2])[:10] == "2025-09-30"
+    assert str(fetch.calls[0][1])[:10] == "1985-10-01"
+    assert str(fetch.calls[0][2])[:10] == "2026-09-30"
 
 
 def test_methods_subset_and_example_year(fetch):
