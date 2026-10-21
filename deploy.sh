@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Redeploy the PNW Climate Trends Explorer (FastAPI + Vite/React frontend).
 #
-#   ./deploy.sh                 test, then deploy BRANCH (default: main)
+#   ./deploy.sh                 test, then deploy BRANCH (default: the branch checked out here)
 #   BRANCH=feat/baseflow ./deploy.sh
 #   ./deploy.sh --skip-tests    skip the local test gate (not recommended)
 #   ./deploy.sh --dry-run       print what would happen, change nothing
@@ -13,7 +13,9 @@
 
 set -euo pipefail
 
-BRANCH="${BRANCH:-main}"
+# Default to the branch checked out in this working copy. (origin/main is a stale
+# two-commit stub that predates the app, so it must never be a silent default.)
+BRANCH="${BRANCH:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --abbrev-ref HEAD)}"
 SERVICE="${SERVICE:-climate-trends.service}"
 SITE_USER="${SITE_USER:-climtrends}"
 APP_DIR="${APP_DIR:-/home/climtrends/htdocs/climate-trends.streamflows.org/app}"
@@ -27,7 +29,7 @@ for arg in "$@"; do
   case "$arg" in
     --skip-tests) SKIP_TESTS=1 ;;
     --dry-run) DRY_RUN=1 ;;
-    -h|--help) sed -n '2,13p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,14p' "$0"; exit 0 ;;
     *) echo "Unknown option: $arg" >&2; exit 2 ;;
   esac
 done
@@ -69,7 +71,14 @@ echo "Deploying:          $REMOTE_SHA ($BRANCH)"
 
 # 3. Update code (fast-forward only: never rewrites the live copy's history). -----
 step "Updating code"
-run as_site git -C "$APP_DIR" fetch --quiet "$REMOTE" "$BRANCH"
+# Fetch first (harmless), then refuse anything that is not a forward move of what is live.
+as_site git -C "$APP_DIR" fetch --quiet "$REMOTE" "$BRANCH"
+as_site git -C "$APP_DIR" merge-base --is-ancestor "$OLD_SHA" "$REMOTE/$BRANCH" \
+  || die "$REMOTE/$BRANCH does not contain the deployed commit $OLD_SHA; deploying it would move the live copy sideways or backwards. Aborting before touching the working tree."
+for f in api/main.py pyproject.toml frontend/package-lock.json; do
+  as_site git -C "$APP_DIR" cat-file -e "$REMOTE/$BRANCH:$f" 2>/dev/null \
+    || die "$REMOTE/$BRANCH has no $f; it is not a deployable version of this app. Aborting."
+done
 run as_site git -C "$APP_DIR" checkout --quiet "$BRANCH"
 run as_site git -C "$APP_DIR" merge --ff-only "$REMOTE/$BRANCH"
 
