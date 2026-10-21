@@ -207,12 +207,14 @@ def gappy(monkeypatch):
     monkeypatch.setattr(service, "_fetch_raw", FakeFetch(make_daily(long_gaps=True)))
 
 
-@pytest.mark.parametrize("year", [2003, 2004, 1990, 1995, 2026])
+# 1995 dropped: it is a complete year under the 1985 default start (1990 covers "before the record")
+@pytest.mark.parametrize("year", [2003, 2004, 1990, 2026])
 def test_example_year_not_complete_http_422(gappy, year):
     assert post(example_water_year=year).status_code == 422
 
 
-@pytest.mark.parametrize("year", [2003, 2004, 1990, 1995, 2026])
+# 1995 dropped: it is a complete year under the 1985 default start (1990 covers "before the record")
+@pytest.mark.parametrize("year", [2003, 2004, 1990, 2026])
 def test_example_year_not_complete_service_valueerror(gappy, year):
     with pytest.raises(ValueError):
         run(example_water_year=year)
@@ -243,7 +245,7 @@ def test_meta_water_years_independent_of_request_order(monkeypatch, order):
     monkeypatch.setattr(service, "_fetch_raw", FakeFetch(make_daily(long_gaps=True)))
     d = run(methods=order)
     assert d["meta"]["water_years"] == [r["water_year"] for r in d["methods"][0]["metrics"]]
-    assert d["meta"]["water_years"] == [y for y in range(1996, 2026) if y not in (2003, 2004)]
+    assert d["meta"]["water_years"] == [y for y in range(1991, 2026) if y not in (2003, 2004)]
     first_excluded = [e["water_year"] for e in d["methods"][0]["quality"]["excluded_water_years"]]
     assert first_excluded == [2003, 2004]
 

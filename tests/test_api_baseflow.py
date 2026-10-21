@@ -213,7 +213,9 @@ def test_empty_request_body_uses_defaults_only_with_site(fetch):
 # No NaN tokens
 # --------------------------------------------------------------------------- #
 def test_json_has_no_nan_tokens_with_hamed_rao_nan(fetch):
-    r = post()
+    # Explicit old window (WY1996-2025): the NaN Hamed-Rao precondition depends on seed-19
+    # statistics over that window; the default window is now longer and no longer yields NaN.
+    r = post(start_date="1995-10-01", end_date="2025-09-30")
     assert r.status_code == 200
     data = strict_json(r.text)
     assert all(math.isfinite(v) for v in finite_floats(data))
@@ -279,7 +281,8 @@ def test_missing_site_no_422(fetch):
     assert client.post(URL, json={}).status_code == 422
 
 
-@pytest.mark.parametrize("year", [1980, 1995, 2026])
+# 1990: synthetic record starts 1990-10-01, so WY1990 is not in the results (1995 now is, under the 1985 default start)
+@pytest.mark.parametrize("year", [1980, 1990, 2026])
 def test_example_year_not_in_results_422(fetch, year):
     r = post(example_water_year=year)
     assert r.status_code == 422, r.text

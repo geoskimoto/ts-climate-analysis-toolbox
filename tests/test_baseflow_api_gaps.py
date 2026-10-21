@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import math
 import warnings
+from datetime import date
 
 import numpy as np
 import pandas as pd
@@ -37,6 +38,7 @@ METRIC_KEYS = [
     "min7_baseflow_cfs", "baseflow_cot_dowy", "recession_k",
 ]
 DEFAULT_ORDER = ["lyne_hollick", "eckhardt", "local_minimum"]
+OLD_WIN = {"start_date": "1995-10-01", "end_date": "2025-09-30"}  # pre-1985-default window, WY1996-2025
 
 
 # --------------------------------------------------------------------------- #
@@ -148,7 +150,9 @@ def per_method_expected(df, bfi_max=0.8, area=5507.0):
 # (1) eckhardt_bfi_max propagation
 # --------------------------------------------------------------------------- #
 def test_bfimax_changes_eckhardt_metrics_label_and_example(fetch, daily):
-    d5, d8 = run(eckhardt_bfi_max=0.5), run()
+    # explicit old window: intent (bfi_max propagation) is unrelated to the default window, and
+    # the expected series below are computed over window_series' default (WY1996-2025)
+    d5, d8 = run(eckhardt_bfi_max=0.5, **OLD_WIN), run(**OLD_WIN)
     e5, e8 = by(d5["methods"], "method")["eckhardt"], by(d8["methods"], "method")["eckhardt"]
     assert e5["label"] == "Eckhardt filter (BFImax=0.50)"
     assert e8["label"] == "Eckhardt filter (BFImax=0.80)"
@@ -209,7 +213,8 @@ def test_alpha_flips_significance_and_method_range_counts(trended):
     # precondition: baseflow_af is significant at 0.10 but not 0.05 for lyne_hollick
     assert exp10["lyne_hollick"]["baseflow_af"]["original"]["significant"]
     assert not exp05["lyne_hollick"]["baseflow_af"]["original"]["significant"]
-    d10, d05 = run(alpha=0.10), run(alpha=0.05)
+    # explicit old window: the precondition (p ~0.07-0.09 for baseflow_af) holds only over WY1996-2025
+    d10, d05 = run(alpha=0.10, **OLD_WIN), run(alpha=0.05, **OLD_WIN)
     for d, exp in ((d10, exp10), (d05, exp05)):
         for x in d["methods"]:
             for k, e in exp[x["method"]].items():
@@ -285,11 +290,12 @@ def test_meta_water_years_from_first_method_that_ran(fetch):
 # (4) record bounds, null dates, errors
 # --------------------------------------------------------------------------- #
 def test_record_bounds_are_raw_fetched_min_max(monkeypatch, daily):
+    monkeypatch.setattr("api.defaults._today", lambda: date(2026, 10, 21))
     f = FakeFetch(daily, honour_range=False)  # returns 1990-10-01..2025-09-30 whatever the window
     monkeypatch.setattr(service, "_fetch_raw", f)
     m = run()["meta"]
     assert (m["record_start"], m["record_end"]) == ("1990-10-01", "2025-09-30")
-    assert (m["window_start"], m["window_end"]) == ("1995-10-01", "2025-09-30")
+    assert (m["window_start"], m["window_end"]) == ("1985-10-01", "2026-09-30")
 
 
 def test_record_bounds_for_record_shorter_than_window(monkeypatch, daily):
@@ -299,14 +305,15 @@ def test_record_bounds_for_record_shorter_than_window(monkeypatch, daily):
     assert (m["record_start"], m["record_end"]) == ("1996-03-15", "2024-06-20")
 
 
-def test_explicit_null_dates_map_to_defaults(fetch):
+def test_explicit_null_dates_map_to_defaults(fetch, monkeypatch):
+    monkeypatch.setattr("api.defaults._today", lambda: date(2026, 10, 21))
     r = post(start_date=None, end_date=None)
     assert r.status_code == 200, r.text
-    assert str(fetch.calls[0][1])[:10] == "1995-10-01" and str(fetch.calls[0][2])[:10] == "2025-09-30"
+    assert str(fetch.calls[0][1])[:10] == "1985-10-01" and str(fetch.calls[0][2])[:10] == "2026-09-30"
     meta = r.json()["meta"]
-    assert (meta["window_start"], meta["window_end"]) == ("1995-10-01", "2025-09-30")
+    assert (meta["window_start"], meta["window_end"]) == ("1985-10-01", "2026-09-30")
     req = schemas.BaseflowRequest(site_no=SITE, start_date=None, end_date=None)
-    assert req.start_date is None or str(req.start_date) == "1995-10-01"
+    assert req.start_date is None or str(req.start_date) == "1985-10-01"
 
 
 def test_example_year_not_complete_422_http(fetch):

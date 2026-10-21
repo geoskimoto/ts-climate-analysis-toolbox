@@ -420,13 +420,18 @@ def test_alpha_is_applied_to_trends(fetch, daily):
 
 
 def test_hamed_rao_nan_p_value_becomes_none(fetch, daily):
+    # Explicit old window (WY1996-2025): the NaN precondition depends on seed-19 statistics
+    # over that window; the longer default window no longer yields NaN p-values.
+    old = {"start_date": "1995-10-01", "end_date": "2025-09-30"}
     nan_cases = []
     for m in ALL:
         kw = {"bfi_max": 0.8} if m == "eckhardt" else {}
-        e = bf.baseflow_trends(expected_metrics(daily, m, **kw)[0])
+        area = 5507.0 if m == "local_minimum" else None
+        s = window_series(daily, old["start_date"], old["end_date"])
+        e = bf.baseflow_trends(bf.water_year_metrics(s, m, drainage_area_sqmi=area, **kw)[0])
         nan_cases += [(m, k) for k, v in e.items() if v and math.isnan(v["hamed_rao"]["p_value"])]
     assert nan_cases, "fixture precondition: seed must yield NaN Hamed-Rao p-values"
-    d = by(run()["methods"], "method")
+    d = by(run(**old)["methods"], "method")
     for m, k in nan_cases:
         assert d[m]["trends"][k]["hamed_rao"]["p_value"] is None
     # and every non-NaN case stays a finite float in [0, 1]
@@ -577,7 +582,8 @@ def test_example_baseflow_bounded_by_flow(fetch):
                 assert -1e-9 <= v <= q + 1e-9, m
 
 
-@pytest.mark.parametrize("bad", [1980, 1995, 2026, 2100])
+# 1990: record starts 1990-10-01 (WY1990 absent); 1995 is now inside the 1985-start default window
+@pytest.mark.parametrize("bad", [1980, 1990, 2026, 2100])
 def test_example_year_outside_results_rejected(fetch, bad):
     with pytest.raises(ValueError):
         run(example_water_year=bad)
