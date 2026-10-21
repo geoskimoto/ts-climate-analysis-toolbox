@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, CircleMarker, Tooltip } from 'react-leaflet'
+import { useEffect } from 'react'
+import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from 'react-leaflet'
 import { SERIES_BLUE, REG_VERMILION, REG_GREY } from '../palette'
 
 // Regulation encoded by fill + ring, not colour alone.
@@ -11,12 +12,25 @@ function regStyle(level, isSel) {
   return { color: REG_GREY, weight: 2, fillColor: REG_GREY, fillOpacity: 0 }
 }
 
+// Leaflet caches its size; tell it whenever the container is resized (splitter drag).
+function ResizeSync() {
+  const map = useMap()
+  useEffect(() => {
+    const el = map.getContainer()
+    const ro = new ResizeObserver(() => map.invalidateSize())
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [map])
+  return null
+}
+
 // Map of all catalog sites; click a marker to select it. The selected site is
 // enlarged and recolored so identity follows the entity, not the marker order.
 export default function SiteMap({ sites, selected, onSelect, regMarkers }) {
   return (
     <>
     <MapContainer center={[46.2, -119.5]} zoom={6} className="site-map" preferCanvas>
+      <ResizeSync />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         // Send the origin as Referer even under a strict document policy

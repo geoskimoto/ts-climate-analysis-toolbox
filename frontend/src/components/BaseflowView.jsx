@@ -9,7 +9,7 @@ const DEFAULT_METRIC = 'augsep_baseflow_cfs'
 const fmt = (n) => (n == null ? 'n/a' : Math.abs(n) >= 100 ? Math.round(n).toLocaleString() : Number(n.toPrecision(3)).toString())
 
 // Right pane for the Baseflow mode.
-export default function BaseflowView({ result }) {
+export default function BaseflowView({ result, hideHeader = false }) {
   const { meta, metric_info, methods, method_range, skipped_methods, example } = result
   const info = Object.fromEntries(metric_info.map((m) => [m.key, m]))
   const [metric, setMetric] = useState(info[DEFAULT_METRIC] ? DEFAULT_METRIC : metric_info[0]?.key)
@@ -25,7 +25,7 @@ export default function BaseflowView({ result }) {
 
   return (
     <div className="analysis">
-      <header className="analysis__header">
+      {!hideHeader && <header className="analysis__header">
         <h2>{meta.site.name}</h2>
         <div className="analysis__submeta">
           <span>USGS {meta.site.site_no}</span>
@@ -34,7 +34,7 @@ export default function BaseflowView({ result }) {
           <span>{meta.water_years.length} water years</span>
           <span>Eckhardt BFImax {meta.eckhardt_bfi_max}</span>
         </div>
-      </header>
+      </header>}
 
       <div className="bf-caveats" role="note">
         <strong>Read with care</strong>

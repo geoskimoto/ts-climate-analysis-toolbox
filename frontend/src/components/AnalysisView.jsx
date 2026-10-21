@@ -6,7 +6,7 @@ import PairingPanel from './PairingPanel'
 
 // Right pane once an analysis has run: site header, verdict cards, the
 // hydrograph, and the per-year trend charts.
-export default function AnalysisView({ result }) {
+export default function AnalysisView({ result, hideHeader = false }) {
   const { meta, center_of_timing, total_volume, seasonal_volumes, peak } = result
   const [windowIdx, setWindowIdx] = useState(seasonal_volumes.length - 1) // default: last window (summer)
   const win = seasonal_volumes[windowIdx]
@@ -15,7 +15,7 @@ export default function AnalysisView({ result }) {
 
   return (
     <div className="analysis">
-      <header className="analysis__header">
+      {!hideHeader && <header className="analysis__header">
         <h2>{meta.site.name}</h2>
         <div className="analysis__submeta">
           <span>USGS {meta.site.site_no}</span>
@@ -24,7 +24,7 @@ export default function AnalysisView({ result }) {
           <span>{meta.record_start} – {meta.record_end}</span>
           <span>{meta.n_water_years} water years</span>
         </div>
-      </header>
+      </header>}
 
       <section className="mk-row">
         <MannKendallCard
