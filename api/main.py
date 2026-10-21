@@ -16,7 +16,7 @@ import requests
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import regulation_filter, schemas, service, service_baseflow, service_paired, service_snow
+from api import defaults, regulation_filter, schemas, service, service_baseflow, service_paired, service_snow
 from api.auth import install_auth
 from climate_core.catalog import default_catalog, default_snotel_catalog
 from climate_core.pairing import suggest_snotel_for_gage
@@ -51,6 +51,13 @@ def health() -> dict:
         "sites": len(default_catalog()),
         "snotel_sites": len(default_snotel_catalog()),
     }
+
+
+@app.get("/api/defaults")
+def analysis_defaults() -> dict:
+    """Default analysis window, resolved per request (rolls over each Oct 1)."""
+    start, end = defaults.default_window()
+    return {"start_date": start.isoformat(), "end_date": end.isoformat()}
 
 
 @app.get("/api/sites", response_model=list[schemas.SiteWithRegulation])

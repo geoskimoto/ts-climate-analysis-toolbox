@@ -15,7 +15,7 @@ import pandas as pd
 from climate_core import DataLoader, Streamflow, USGSStreamflow
 from climate_core.catalog import default_catalog
 
-from api import schemas
+from api import defaults, schemas
 from api.common import (
     attach_dowy,
     build_climatology,
@@ -60,7 +60,7 @@ def run_analysis(req: schemas.AnalysisRequest) -> schemas.AnalysisResult:
     site = catalog.get(req.site_no)  # raises KeyError -> 404 in the route
 
     start = (req.start_date or date(1900, 10, 1)).isoformat()
-    end = (req.end_date or date.today()).isoformat()
+    end = (req.end_date or defaults.last_complete_water_year_end()).isoformat()
 
     raw = _fetch_raw(site.site_no, start, end)
     if raw is None or raw.empty:

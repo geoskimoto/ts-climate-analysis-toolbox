@@ -12,6 +12,8 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
+from api import defaults
+
 
 # --------------------------------------------------------------------------- #
 # Sites
@@ -54,7 +56,7 @@ DEFAULT_SEASONAL_WINDOWS = [
 class AnalysisRequest(BaseModel):
     site_no: str = Field(..., examples=["13340000"])
     start_date: date | None = Field(None, description="Defaults to the start of the site record.")
-    end_date: date | None = Field(None, description="Defaults to today.")
+    end_date: date | None = Field(None, description="Defaults to the end of the last complete water year.")
     threshold_percent: float = Field(0.5, gt=0, lt=1, description="Center-of-timing fraction.")
     alpha: float = Field(0.10, gt=0, lt=1, description="Mann-Kendall significance level.")
     peak_window_size: int = Field(7, ge=1, le=60, description="Rolling-mean window (days) for peak.")
@@ -293,14 +295,17 @@ class PairedResult(BaseModel):
 # Baseflow (USGS hydrograph separation)
 # --------------------------------------------------------------------------- #
 BaseflowMethod = Literal["lyne_hollick", "eckhardt", "local_minimum"]
-DEFAULT_BASEFLOW_START = date(1995, 10, 1)
-DEFAULT_BASEFLOW_END = date(2025, 9, 30)
 
 
 class BaseflowRequest(BaseModel):
     site_no: str = Field(..., examples=["13340000"])
-    start_date: date = Field(DEFAULT_BASEFLOW_START, description="Null means the default (WY1996 start).")
-    end_date: date = Field(DEFAULT_BASEFLOW_END, description="Null means the default (WY2025 end).")
+    start_date: date = Field(
+        default_factory=lambda: defaults.DEFAULT_START, description="Null means the default (1985-10-01)."
+    )
+    end_date: date = Field(
+        default_factory=lambda: defaults.last_complete_water_year_end(),
+        description="Null means the last day of the latest complete water year.",
+    )
     methods: list[BaseflowMethod] = Field(
         default_factory=lambda: ["lyne_hollick", "eckhardt", "local_minimum"],
         description="Non-empty, unique separation methods.",
@@ -313,7 +318,7 @@ class BaseflowRequest(BaseModel):
     @classmethod
     def _null_means_default(cls, v, info):
         if v is None:
-            return DEFAULT_BASEFLOW_START if info.field_name == "start_date" else DEFAULT_BASEFLOW_END
+            return defaults.DEFAULT_START if info.field_name == "start_date" else defaults.last_complete_water_year_end()
         return v
 
     @field_validator("methods")
